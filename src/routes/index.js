@@ -1,7 +1,9 @@
 const { pingRouter } = require('./ping');
+const { moviesRouter } = require('./movies');
 
 const applyApi = app => {
   const routes = {
+    '/api/movies': moviesRouter,
     '/status': pingRouter
   };
 
