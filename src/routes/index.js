@@ -5,6 +5,7 @@ const { movieTrailerRouter } = require("./movieTrailer");
 const { movieCreditsRouter } = require("./movieCredits");
 const { actorMoviesRouter } = require("./actorMovies");
 const { searchRouter } = require("./search");
+const { randomRouter } = require("./random");
 
 const applyApi = (app) => {
   const routes = {
@@ -14,10 +15,11 @@ const applyApi = (app) => {
     "/api/trailer": movieTrailerRouter,
     "/api/credits": movieCreditsRouter,
     "/api/search": searchRouter,
+    "/api/random": randomRouter,
     "/status": pingRouter,
   };
 
-  for(const path of Object.keys(routes)) {
+  for (const path of Object.keys(routes)) {
     app.use(path, routes[path]);
   }
 };

@@ -2,7 +2,7 @@ const movieRouter = require("express").Router();
 const axios = require("axios");
 const API_KEY = require("../../../secrets").API_KEY;
 
-movieRouter.get("/:movieId", async (req, resp) => {
+movieRouter.get("/:movieId", async (req, res) => {
   const {
     params: { movieId },
   } = req;
@@ -10,9 +10,9 @@ movieRouter.get("/:movieId", async (req, resp) => {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
     );
-    resp.send(data);
+    res.send(data);
   } catch {
-    resp.status(404).send("Movie not found");
+    res.status(404).send("Movie not found");
   }
 });
 
