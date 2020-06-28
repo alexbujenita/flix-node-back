@@ -2,7 +2,7 @@ const actorMoviesRouter = require("express").Router();
 const axios = require("axios");
 const API_KEY = require("../../../secrets").API_KEY;
 
-actorMoviesRouter.get("/:actorId", async (req, resp) => {
+actorMoviesRouter.get("/:actorId", async (req, res) => {
   const {
     params: { actorId },
   } = req;
@@ -20,9 +20,9 @@ actorMoviesRouter.get("/:actorId", async (req, resp) => {
       actorMovies.push(...data.results);
     } while (page <= totalPages);
   } catch {
-    resp.status(501).send("Internal server error")
+    res.status(501).send("Internal server error");
   }
-  resp.send(actorMovies);
+  res.send(actorMovies);
 });
 
 exports.actorMoviesRouter = actorMoviesRouter;

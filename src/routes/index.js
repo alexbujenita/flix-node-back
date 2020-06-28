@@ -4,6 +4,7 @@ const { movieRouter } = require("./movie");
 const { movieTrailerRouter } = require("./movieTrailer");
 const { movieCreditsRouter } = require("./movieCredits");
 const { actorMoviesRouter } = require("./actorMovies");
+const { searchRouter } = require("./search");
 
 const applyApi = (app) => {
   const routes = {
@@ -12,6 +13,7 @@ const applyApi = (app) => {
     "/api/actor-movies": actorMoviesRouter,
     "/api/trailer": movieTrailerRouter,
     "/api/credits": movieCreditsRouter,
+    "/api/search": searchRouter,
     "/status": pingRouter,
   };
 
