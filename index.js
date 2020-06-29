@@ -88,4 +88,4 @@ app.get("/", (req, resp) => {
   });
 })();
 
-exports.models = {User, UserFavourite};
+exports.models = { User, UserFavourite };

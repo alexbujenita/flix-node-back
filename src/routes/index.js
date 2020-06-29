@@ -12,7 +12,7 @@ const applyApi = (app) => {
     "/api/movies": moviesRouter,
     "/api/movie": movieRouter,
     "/api/actor-movies": actorMoviesRouter,
-    "/api/trailer": movieTrailerRouter,
+    "/api/trailers": movieTrailerRouter,
     "/api/credits": movieCreditsRouter,
     "/api/search": searchRouter,
     "/api/random": randomRouter,
