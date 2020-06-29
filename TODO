@@ -3,3 +3,17 @@
 2. Use Event Emitters to log and/or process data/errors eg. const EventEmitter = require('events'); emm = new EventEmitter(); emm.on('eventName', function)
 3. Try #2 with setImmediate for async
 4. Have a better folder structure for sequelize!!!
+
+
+
+
+
+
+
+
+
+
+
+
+sequelizeCLI:
+https://medium.com/@andrewoons/how-to-define-sequelize-associations-using-migrations-de4333bf75a7
