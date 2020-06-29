@@ -20,7 +20,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "express": "^4.17.1",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "sequelize": "^6.2.3",
+    "sqlite3": "^4.2.0"
   },
   "nodemonConfig": {
     "delay": "2000"
