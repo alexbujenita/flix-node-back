@@ -3,3 +3,33 @@
 2. Use Event Emitters to log and/or process data/errors eg. const EventEmitter = require('events'); emm = new EventEmitter(); emm.on('eventName', function)
 3. Try #2 with setImmediate for async
 4. Have a better folder structure for sequelize!!!
+XXX Done using sequelize-cli XXX
+
+
+
+
+
+
+
+
+
+
+
+
+sequelizeCLI:
+https://medium.com/@andrewoons/how-to-define-sequelize-associations-using-migrations-de4333bf75a7
+
+with sequelize-cli we can create a model/migration, which creates a index.js that will export the entire db object!
+We can just import that wherever we need it.
+Just remember to do a sequelize db:migrate the first time.
+
+
+```
+    const db = require("../../../models")
+    
+  await db.User.create({firstName: 'AAA', email: 'email@test.com', passwordDigest: 'asdasda'})
+  await db.UserFavourite.create({movieRefId: 2243,movieTitle: "adasd",userId: 2,moviePosterPath:"asdada"})
+  await db.UserFavourite.create({movieRefId: 22343,movieTitle: "aASDASDdasd",userId: 3,moviePosterPath:"aDGARREFEEFsdada"})
+  const usQ = await db.User.findByPk(1)
+  const usFav = await usQ.getUserFavourites()
+```
