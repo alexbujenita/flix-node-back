@@ -10,6 +10,7 @@ For auth:
 2. Evaluate if I need passportJS or instead create myself a middleware
 3a. Implement JWT
 3b. Invalidate JWT or cookies after a while
+3c. should send back the token on register or ask to signIn
 4. In the end the only unprotected routes will be the auth ones
 
 
