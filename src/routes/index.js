@@ -7,6 +7,7 @@ const { actorMoviesRouter } = require("./actorMovies");
 const { searchRouter } = require("./search");
 const { randomRouter } = require("./random");
 const { signUpRouter } = require("./auth/signUp");
+const { signInRouter } = require("./auth/signIn");
 
 const applyApi = (app) => {
   const routes = {
@@ -18,6 +19,7 @@ const applyApi = (app) => {
     "/api/search": searchRouter,
     "/api/random": randomRouter,
     "/api/auth/register": signUpRouter,
+    "/api/auth/login": signInRouter,
     "/status": pingRouter,
   };
 

@@ -17,7 +17,9 @@ signUpRouter.post("/", async (req, res) => {
     });
     res.status(201).send({ message: "User succesfully created" });
   } catch (e) {
-    res.status(500).send({ error: "Cannot create user." });
+    res
+      .status(500)
+      .send({ error: e?.errors[0]?.message ?? "Error creating user" });
   }
 });
 

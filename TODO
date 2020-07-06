@@ -7,16 +7,21 @@ XXX Done using sequelize-cli XXX
 
 For auth:
 1. Decide how to hash the passwords, either with bcrypt or argon2, the latter is protected against time attacks
+XXX Went for bcrypt, it's protected against time attacks as well XXX
 2. Evaluate if I need passportJS or instead create myself a middleware
 3a. Implement JWT
 3b. Invalidate JWT or cookies after a while
 3c. should send back the token on register or ask to signIn
 4. In the end the only unprotected routes will be the auth ones
+5. Create custom auth middleware
 
 
 
 
-
+------------------------------------------------------------------------------------------
+1. Write some documentation
+2. Write the README.md
+------------------------------------------------------------------------------------------
 
 
 
