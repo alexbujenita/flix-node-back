@@ -8,6 +8,7 @@ const { searchRouter } = require("./search");
 const { randomRouter } = require("./random");
 const { signUpRouter } = require("./auth/signUp");
 const { signInRouter } = require("./auth/signIn");
+const { userFavsRouter } = require("./userFavs");
 
 const applyApi = (app) => {
   const routes = {
@@ -20,6 +21,7 @@ const applyApi = (app) => {
     "/api/random": randomRouter,
     "/api/auth/register": signUpRouter,
     "/api/auth/login": signInRouter,
+    "/api/favs": userFavsRouter,
     "/status": pingRouter,
   };
 

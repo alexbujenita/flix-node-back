@@ -15,6 +15,13 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 4. In the end the only unprotected routes will be the auth ones
 5. Create custom auth middleware
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. Decide how to handle the favs endpoint:
+  - reading the JWT everytime to have the user id;
+  - check the user id that it exists;
+  - finally check that the user has that movie as a fav before deleting the entry
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
 
@@ -43,4 +50,11 @@ Just remember to do a sequelize db:migrate the first time.
   await db.UserFavourite.create({movieRefId: 22343,movieTitle: "aASDASDdasd",userId: 3,moviePosterPath:"aDGARREFEEFsdada"})
   const usQ = await db.User.findByPk(1)
   const usFav = await usQ.getUserFavourites()
+```
+
+```
+With the below we include also the user's favourites films.
+    const user = await db.User.findByPk(15, {
+      include: [{ model: db.UserFavourite }],
+    });
 ```
