@@ -27,4 +27,15 @@ userFavsRouter.post("/", async (req, res) => {
   }
 });
 
+userFavsRouter.delete('/:favId', async (req, res) => {
+  const { params: { favId } } = req;
+  try {
+    const fav = await db.UserFavourite.findByPk(parseInt(favId));
+    await fav.destroy();
+    res.status(204).send();
+  } catch {
+    res.status(500).send({ error: 'Resource not found.' });
+  }
+});
+
 exports.userFavsRouter = userFavsRouter;

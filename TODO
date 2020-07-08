@@ -1,5 +1,6 @@
 1. Try having an in memory cache for single resources like movie, actor, credits etc...
 1. XXX Basic implementation done, check wheter to clear after a certain size or time XXX
+1a. Have also an in memory cache for the user, and reset each time a new resource gets created
 2. Use Event Emitters to log and/or process data/errors eg. const EventEmitter = require('events'); emm = new EventEmitter(); emm.on('eventName', function)
 3. Try #2 with setImmediate for async
 4. Have a better folder structure for sequelize!!!
