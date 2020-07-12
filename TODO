@@ -31,7 +31,9 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 2. Write the README.md
 ------------------------------------------------------------------------------------------
 
-
+For user favs:
+1. Remove seen and description for creation, since it's only adding to DB
+2. Create a PATCH handler for the above
 
 
 
