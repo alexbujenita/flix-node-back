@@ -32,8 +32,10 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 ------------------------------------------------------------------------------------------
 
 For user favs:
-1. Remove seen and description for creation, since it's only adding to DB
-2. Create a PATCH handler for the above
+1. Create a PATCH handler for the 'seen' + 'description' fields
+1. XXX OK. XXX
+2. FE side decide how to handle empty description since "" is falsy, maybe just " "
+3. GET route for retrieving all of one user's favs
 
 
 
