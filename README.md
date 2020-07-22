@@ -47,4 +47,6 @@ Accepts a GET request with the film's ID in the params, retrieves its trailer/s 
 ### Ping
 A health check route. Responds to GET request to which, if alive, returns a 200 status code.
 ### Random
-To be written...
+Accepts a GET request, and returns a random list of films. If it enters an infinite loop there is a fail safe mechanism to break out of it and return a 501 status code.
+### Search
+Accepts a GET request with two optional queries &pageNum=INT and &includeAdult=STRING and the search term. If successful returns the films found otherwise 501.
