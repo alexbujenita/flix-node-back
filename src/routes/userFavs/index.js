@@ -9,16 +9,10 @@ userFavsRouter.get("/:userId", async (req, res) => {
     const userFavs = await db.User.findByPk(parseInt(userId), {
       include: db.UserFavourite,
     });
-    // console.log(email);
-    // const favs = await db.User.findOne({
-    //   where: { email },
-    //   include: db.UserFavourite,
-    // });
     if (!userFavs) throw new Error("User not found.");
     res.send(userFavs);
   } catch (error) {
-    console.log(error);
-    res.status(500).send(error);
+    res.status(500).send({ error: error?.message ?? "Internal server error" });
   }
 });
 
