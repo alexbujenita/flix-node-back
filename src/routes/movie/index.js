@@ -2,10 +2,11 @@ const movieRouter = require("express").Router();
 const axios = require("axios");
 const API_KEY = require("../../../secrets").API_KEY;
 const { colours } = require("../../utils/colours");
+const authJWT = require('../../middleware/auth/authJWT')
 
 const movieCache = new Map();
 
-movieRouter.get("/:movieId", async (req, res) => {
+movieRouter.get("/:movieId", authJWT ,async (req, res) => {
   const {
     params: { movieId },
   } = req;

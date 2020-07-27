@@ -10,7 +10,8 @@ For auth:
 1. Decide how to hash the passwords, either with bcrypt or argon2, the latter is protected against time attacks
 XXX Went for bcrypt, it's protected against time attacks as well XXX
 2. Evaluate if I need passportJS or instead create myself a middleware
-3a. Implement JWT
+2. XXX My own XXX
+3a. Implement JWT <- DONE
 3b. Invalidate JWT or cookies after a while
 3c. should send back the token on register or ask to signIn
 4. In the end the only unprotected routes will be the auth ones
@@ -36,6 +37,7 @@ For user favs:
 1. XXX OK. XXX
 2. FE side decide how to handle empty description since "" is falsy, maybe just " "
 3. GET route for retrieving all of one user's favs
+3. XXX OK. XXX
 
 
 
