@@ -1,12 +1,10 @@
+const authJWT = require('../../middleware/auth/authJWT');
 const userFavsRouter = require("express").Router();
 const db = require("../../../models/index");
 
-userFavsRouter.get("/:userId", async (req, res) => {
-  const {
-    params: { userId },
-  } = req;
+userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
-    const userFavs = await db.User.findByPk(parseInt(userId), {
+    const userFavs = await db.User.findByPk(req.loggedUser, {
       include: db.UserFavourite,
     });
     if (!userFavs) throw new Error("User not found.");
