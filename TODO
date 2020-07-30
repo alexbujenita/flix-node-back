@@ -15,13 +15,18 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 3b. Invalidate JWT or cookies after a while
 3c. should send back the token on register or ask to signIn
 4. In the end the only unprotected routes will be the auth ones
+4. XXX for now only favs, decide later if others need auth
 5. Create custom auth middleware
+5. XXX DONE
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1. Decide how to handle the favs endpoint:
   - reading the JWT everytime to have the user id;
+  - ^^^ yes, done
   - check the user id that it exists;
+  - ^^^ done, if it has a token it exists...
   - finally check that the user has that movie as a fav before deleting the entry
+  - ^^^ no need, only a user with a valid token can see his favs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
