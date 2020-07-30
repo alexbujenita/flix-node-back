@@ -14,16 +14,16 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   }
 });
 
-userFavsRouter.post("/", async (req, res) => {
+userFavsRouter.post("/", authJWT, async (req, res) => {
   const {
-    body: { movieRefId, movieTitle, moviePosterPath, userId },
+    body: { movieRefId, movieTitle, moviePosterPath },
   } = req;
   try {
     const fav = await db.UserFavourite.create({
       movieRefId: parseInt(movieRefId),
       movieTitle,
       moviePosterPath,
-      userId: parseInt(userId),
+      userId: req.loggedUser,
     });
     res.send(fav);
   } catch (e) {
@@ -31,7 +31,7 @@ userFavsRouter.post("/", async (req, res) => {
   }
 });
 
-userFavsRouter.patch("/:favId", async (req, res) => {
+userFavsRouter.patch("/:favId", authJWT, async (req, res) => {
   const {
     params: { favId },
     body: { seen, description },
@@ -47,7 +47,7 @@ userFavsRouter.patch("/:favId", async (req, res) => {
   }
 });
 
-userFavsRouter.delete("/:favId", async (req, res) => {
+userFavsRouter.delete("/:favId", authJWT, async (req, res) => {
   const {
     params: { favId },
   } = req;
