@@ -1,12 +1,10 @@
+const authJWT = require('../../middleware/auth/authJWT');
 const userFavsRouter = require("express").Router();
 const db = require("../../../models/index");
 
-userFavsRouter.get("/:userId", async (req, res) => {
-  const {
-    params: { userId },
-  } = req;
+userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
-    const userFavs = await db.User.findByPk(parseInt(userId), {
+    const userFavs = await db.User.findByPk(req.loggedUser, {
       include: db.UserFavourite,
     });
     if (!userFavs) throw new Error("User not found.");
@@ -16,16 +14,16 @@ userFavsRouter.get("/:userId", async (req, res) => {
   }
 });
 
-userFavsRouter.post("/", async (req, res) => {
+userFavsRouter.post("/", authJWT, async (req, res) => {
   const {
-    body: { movieRefId, movieTitle, moviePosterPath, userId },
+    body: { movieRefId, movieTitle, moviePosterPath },
   } = req;
   try {
     const fav = await db.UserFavourite.create({
       movieRefId: parseInt(movieRefId),
       movieTitle,
       moviePosterPath,
-      userId: parseInt(userId),
+      userId: req.loggedUser,
     });
     res.send(fav);
   } catch (e) {
@@ -33,7 +31,7 @@ userFavsRouter.post("/", async (req, res) => {
   }
 });
 
-userFavsRouter.patch("/:favId", async (req, res) => {
+userFavsRouter.patch("/:favId", authJWT, async (req, res) => {
   const {
     params: { favId },
     body: { seen, description },
@@ -49,7 +47,7 @@ userFavsRouter.patch("/:favId", async (req, res) => {
   }
 });
 
-userFavsRouter.delete("/:favId", async (req, res) => {
+userFavsRouter.delete("/:favId", authJWT, async (req, res) => {
   const {
     params: { favId },
   } = req;
