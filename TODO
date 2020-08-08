@@ -44,6 +44,12 @@ For user favs:
 3. GET route for retrieving all of one user's favs
 3. XXX OK. XXX
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+EXTRAs:
+1. Having an option for the user to download the entire list of favs.
+1a. Would be nice to have a PDF generator, with the image, the cast, and some film info, plus the user's description.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 sequelizeCLI:
