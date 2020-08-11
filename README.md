@@ -28,6 +28,9 @@ Finally you can run the server by:
 $ npm start
 ```
 
+## Auth middleware
+Checks the presence of the auth headers and tries to decode it, if successful create a property on the req object with the actual user ID, if not return a 401.
+
 ## Routes breakdown
 ### Auth
 #### Signing up
@@ -50,3 +53,13 @@ A health check route. Responds to GET request to which, if alive, returns a 200 
 Accepts a GET request, and returns a random list of films. If it enters an infinite loop there is a fail safe mechanism to break out of it and return a 501 status code.
 ### Search
 Accepts a GET request with two optional queries &pageNum=INT and &includeAdult=STRING and the search term. If successful returns the films found otherwise 501.
+### User favs
+#### This route uses the auth middleware.
+##### GET
+Return the user with it's favs.
+##### POST
+Providing all the required info it create a new UserFavourite with the user requesting it as the owner.
+##### PATCH
+Modifies the UserFavourite entry either with the boolean 'seen' or the string 'description'.
+##### DELETE
+Removes the UserFavourite entry of the requesting user.
