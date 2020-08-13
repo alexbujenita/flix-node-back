@@ -27,6 +27,7 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
   - ^^^ done, if it has a token it exists...
   - finally check that the user has that movie as a fav before deleting the entry
   - ^^^ no need, only a user with a valid token can see his favs
+  - Add a field in the DB to put a movie in a watchlist
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
