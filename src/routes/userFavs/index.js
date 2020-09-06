@@ -1,4 +1,4 @@
-const authJWT = require('../../middleware/auth/authJWT');
+const authJWT = require("../../middleware/auth/authJWT");
 const userFavsRouter = require("express").Router();
 const db = require("../../../models/index");
 
@@ -34,13 +34,14 @@ userFavsRouter.post("/", authJWT, async (req, res) => {
 userFavsRouter.patch("/:favId", authJWT, async (req, res) => {
   const {
     params: { favId },
-    body: { seen, description, watchlist },
+    body: { seen, description, watchlist, rating },
   } = req;
   try {
     const fav = await db.UserFavourite.findByPk(parseInt(favId));
     if (seen) fav.seen = !fav.seen;
     if (watchlist) fav.watchlist = !fav.watchlist;
-    fav.description = description ?? ""
+    if (rating) fav.rating = parseInt(rating);
+    fav.description = description ?? "";
     await fav.save();
     res.send(fav);
   } catch {

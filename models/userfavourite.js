@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    rating: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
     description: {
       type: DataTypes.TEXT,
     },
