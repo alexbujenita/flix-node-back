@@ -28,6 +28,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      rating: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
       description: {
         type: Sequelize.TEXT,
       },
