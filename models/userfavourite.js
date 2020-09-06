@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    watchlist: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     description: {
       type: DataTypes.TEXT,
     },
