@@ -34,12 +34,13 @@ userFavsRouter.post("/", authJWT, async (req, res) => {
 userFavsRouter.patch("/:favId", authJWT, async (req, res) => {
   const {
     params: { favId },
-    body: { seen, description },
+    body: { seen, description, watchlist },
   } = req;
   try {
     const fav = await db.UserFavourite.findByPk(parseInt(favId));
     if (seen) fav.seen = !fav.seen;
-    if (description) fav.description = description;
+    if (watchlist) fav.watchlist = !fav.watchlist;
+    fav.description = description ?? ""
     await fav.save();
     res.send(fav);
   } catch {

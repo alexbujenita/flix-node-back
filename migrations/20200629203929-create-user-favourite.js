@@ -24,6 +24,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+      watchlist: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       description: {
         type: Sequelize.TEXT,
       },

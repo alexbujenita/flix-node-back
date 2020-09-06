@@ -18,6 +18,7 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 4. XXX for now only favs, decide later if others need auth
 5. Create custom auth middleware
 5. XXX DONE
+6. Decide to put auth around the other routes, eg. GET /movie, GET /random
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1. Decide how to handle the favs endpoint:
@@ -28,6 +29,8 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
   - finally check that the user has that movie as a fav before deleting the entry
   - ^^^ no need, only a user with a valid token can see his favs
   - Add a field in the DB to put a movie in a watchlist
+  - ^^^ done
+  - add a starRating field
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
