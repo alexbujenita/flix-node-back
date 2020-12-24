@@ -61,6 +61,10 @@ The route accepts a POST request with the body containing the unique email addre
 
 Accepts a GET request with the actor's ID in the params, it then goes through all the existing pages and builds a list with all of the actor's films. In case of error return 501.
 
+### Actor Info
+
+Accepts a GET request with the actor's ID in the params, it return an object with
+the actor's info, such as name.
 ### Movie
 
 Accepts a GET request with the film's ID in the params, retrieves it and before sending it back to the client it caches it in a Map for future use. In case of error return 404.

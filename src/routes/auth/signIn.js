@@ -8,14 +8,14 @@ signInRouter.post("/", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await db.User.findOne({ where: { email } });
-    const match = user && await bcrypt.compare(password, user.passwordDigest);
+    const match = user && (await bcrypt.compare(password, user.passwordDigest));
     if (match) {
       const payload = {
         userId: user.id,
         role: "user",
       };
       const token = jwt.sign(payload, PRIVATE_KEY);
-      res.status(201).send({ jwt: token });
+      res.status(201).send({ jwt: token, firstName: user.firstName });
     } else {
       res.status(401).send({ error: "Failed credentials" });
     }
