@@ -12,8 +12,9 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 2. Evaluate if I need passportJS or instead create myself a middleware
 2. XXX My own XXX
 3a. Implement JWT <- DONE
-3b. Invalidate JWT or cookies after a while
-3c. should send back the token on register or ask to signIn
+3b. Invalidate JWT or cookies after a while --> keep the same exp for both
+3c. should send back the token on register or ask to signIn --> without auto sign-in
+3d. Invalide cookie on logout
 4. In the end the only unprotected routes will be the auth ones
 4. XXX for now only favs, decide later if others need auth
 5. Create custom auth middleware

@@ -15,6 +15,16 @@ signInRouter.post("/", async (req, res) => {
         role: "user",
       };
       const token = jwt.sign(payload, PRIVATE_KEY);
+      res.cookie("JWT_TOKEN", token, {
+        maxAge: 7000 * 40 * 60 * 60,
+        // You can't access these tokens in the client's javascript if true
+        httpOnly: false,
+        domain: "localhost",
+        path: "/",
+        signed: false,
+        // Forces to use https in production
+        secure: false,
+      });
       res.status(201).send({ jwt: token, firstName: user.firstName });
     } else {
       res.status(401).send({ error: "Failed credentials" });
