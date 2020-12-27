@@ -14,11 +14,13 @@ signInRouter.post("/", async (req, res) => {
         userId: user.id,
         role: "user",
       };
-      const token = jwt.sign(payload, PRIVATE_KEY);
+      const token = jwt.sign(payload, PRIVATE_KEY, {
+        expiresIn: "2 days",
+      });
       res.cookie("JWT_TOKEN", token, {
-        maxAge: 7000 * 40 * 60 * 60,
+        maxAge: 2 * 24 * 60 * 60 * 1000, // days hours minutes secs ms (2 DAYS)
         // You can't access these tokens in the client's javascript if true
-        httpOnly: false,
+        httpOnly: true,
         domain: "localhost",
         path: "/",
         signed: false,
