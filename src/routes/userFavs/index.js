@@ -6,6 +6,7 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
     const userFavs = await db.User.findByPk(req.loggedUser, {
       include: db.UserFavourite,
+      attributes: { exclude: ["email", "passwordDigest"] },
     });
     if (!userFavs) throw new Error("User not found.");
     res.send(userFavs);
@@ -31,17 +32,20 @@ userFavsRouter.post("/", authJWT, async (req, res) => {
   }
 });
 
-userFavsRouter.patch("/:favId", authJWT, async (req, res) => {
+userFavsRouter.patch("/:originalIdFav", authJWT, async (req, res) => {
   const {
-    params: { favId },
+    params: { originalIdFav },
     body: { seen, description, watchlist, rating },
   } = req;
   try {
-    const fav = await db.UserFavourite.findByPk(parseInt(favId));
+    // ^^ Easier if the original ID is passed
+    const fav = await db.UserFavourite.findOne({
+      where: { movieRefId: parseInt(originalIdFav) },
+    });
     if (seen) fav.seen = !fav.seen;
     if (watchlist) fav.watchlist = !fav.watchlist;
     if (rating) fav.rating = parseInt(rating);
-    fav.description = description ?? "";
+    fav.description = description ?? fav.description;
     await fav.save();
     res.send(fav);
   } catch {
@@ -49,12 +53,16 @@ userFavsRouter.patch("/:favId", authJWT, async (req, res) => {
   }
 });
 
-userFavsRouter.delete("/:favId", authJWT, async (req, res) => {
+userFavsRouter.delete("/:originalIdFav", authJWT, async (req, res) => {
   const {
-    params: { favId },
+    params: { originalIdFav },
   } = req;
   try {
-    const fav = await db.UserFavourite.findByPk(parseInt(favId));
+    // const fav = await db.UserFavourite.findByPk(parseInt(favId));
+    // ^^ Easier if the original ID is passed
+    const fav = await db.UserFavourite.findOne({
+      where: { movieRefId: parseInt(originalIdFav) },
+    });
     await fav.destroy();
     res.status(204).send();
   } catch {
