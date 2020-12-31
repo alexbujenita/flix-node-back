@@ -10,6 +10,7 @@ const { signUpRouter } = require("./auth/signUp");
 const { signInRouter } = require("./auth/signIn");
 const { userFavsRouter } = require("./userFavs");
 const { actorInfo } = require("./actorInfo");
+const { logoutRouter } = require("./auth/logout");
 
 const applyApi = (app) => {
   const routes = {
@@ -22,6 +23,7 @@ const applyApi = (app) => {
     "/api/random": randomRouter,
     "/api/auth/register": signUpRouter,
     "/api/auth/login": signInRouter,
+    "/api/auth/logout": logoutRouter,
     "/api/favs": userFavsRouter,
     "/api/actor-info": actorInfo,
     "/status": pingRouter,
