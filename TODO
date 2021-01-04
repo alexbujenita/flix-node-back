@@ -1,6 +1,8 @@
 1. Try having an in memory cache for single resources like movie, actor, credits etc...
 1. XXX Basic implementation done, check wheter to clear after a certain size or time XXX
 1a. Have also an in memory cache for the user, and reset each time a new resource gets created
+    ^^^ don't see any point atm ^^^
+1b. Try having an in memory cache for search also, stored as the query string
 2. Use Event Emitters to log and/or process data/errors eg. const EventEmitter = require('events'); emm = new EventEmitter(); emm.on('eventName', function)
 3. Try #2 with setImmediate for async
 4. Have a better folder structure for sequelize!!!
@@ -15,11 +17,13 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 3b. Invalidate JWT or cookies after a while --> keep the same exp for both
 3c. should send back the token on register or ask to signIn --> without auto sign-in
 3d. Invalide cookie on logout
+    ^^^ DONE ^^^
 4. In the end the only unprotected routes will be the auth ones
 4. XXX for now only favs, decide later if others need auth
 5. Create custom auth middleware
 5. XXX DONE
 6. Decide to put auth around the other routes, eg. GET /movie, GET /random
+    ^^^ not needed ^^^
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1. Decide how to handle the favs endpoint:
@@ -32,6 +36,7 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
   - Add a field in the DB to put a movie in a watchlist
   - ^^^ done
   - add a starRating field
+  - ^^^ done
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 

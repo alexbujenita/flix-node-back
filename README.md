@@ -43,7 +43,10 @@ $ npm start
 
 ## Auth middleware
 
-Checks the presence of the auth headers and tries to decode it, if successful create a property on the req object with the actual user ID, if not return a 401.
+~~Checks the presence of the auth headers and tries to decode it, if successful 
+create a property on the req object with the actual user ID, if not return a 401.`~~
+
+Almost, now it checks the presence of the cookie.
 
 ## Routes breakdown
 
@@ -57,6 +60,8 @@ The route accepts a POST request with the body containing the first name, last n
 
 The route accepts a POST request with the body containing the unique email address and the password. It finds the user by email and compares the hashed password with the received one, if successful it creates a JWT to be sent back to the client, if something doesn't match it send a 401 and if anything else goes wring a 404 status code.
 
+#### Logout
+A DELETE request to the route will delete the specified cookie/s.
 ### Actor movies
 
 Accepts a GET request with the actor's ID in the params, it then goes through all the existing pages and builds a list with all of the actor's films. In case of error return 501.
