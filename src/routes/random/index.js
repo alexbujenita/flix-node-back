@@ -4,14 +4,14 @@ const {
   random: { randomQueryString, sample, randomInt },
 } = require("./utils");
 
-randomRouter.get("/", async (req, res) => {
+randomRouter.get("/", async (_, res) => {
   try {
     const randomMovies = [];
     let failSafe = 0;
-    while (randomMovies.length < 20) {
+    while (randomMovies.length < 25) {
       if (++failSafe > 10) throw new Error("Too many requests");
       const { data } = await axios.get(randomQueryString());
-      const iterations = randomInt(1, 6);
+      const iterations = randomInt(2, 7);
       for (let i = 0; i < iterations; i++) {
         const [movie, idx] = sample(data.results);
         randomMovies.push(movie);
@@ -19,9 +19,9 @@ randomRouter.get("/", async (req, res) => {
       }
     }
     res.send(randomMovies);
-  } catch (err) {
-    console.log(err);
-    res.status(501).send("Internal server error");
+  } catch (error) {
+    console.log(error);
+    res.status(501).send(error?.message ?? "Internal server error");
   }
 });
 

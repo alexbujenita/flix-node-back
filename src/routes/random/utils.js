@@ -5,9 +5,9 @@ function randomInt(min = 1, max = 500) {
 }
 
 function sample(array) {
-  const length = array == null ? 0 : array.length;
+  const { length } = array;
   const index = Math.floor(Math.random() * length);
-  return length ? [array[index], index] : undefined;
+  return [array[index], index];
 }
 
 function randomQueryString() {
