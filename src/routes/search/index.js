@@ -9,7 +9,7 @@ searchRouter.get("/", async (req, res) => {
   const {
     query: { searchTerm, pageNum = 1, includeAdult = false },
   } = req;
-  const qString = searchTerm.trim() + pageNum;
+  const qString = searchTerm.trim() + pageNum + includeAdult;
 
   if (searchCache.has(qString)) {
     console.log(colours.FgCyan, "Search Movies Cache HIT!!!");
