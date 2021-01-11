@@ -26,4 +26,23 @@ movieRouter.get("/:movieId", async (req, res) => {
   }
 });
 
+movieRouter.get("/:movieId/:movieResource", async (req, res) => {
+  // const PERMITTED_RESOURCES = ['similar', 'now_playing', 'images', 'recommendations', 'popular', 'top_rated']; maybe as a safeguard
+  const {
+    params: { movieId, movieResource },
+    query: { pageNum = 1 },
+  } = req;
+
+  const URL = `https://api.themoviedb.org/3/movie/${
+    !!parseInt(movieId) ? `${movieId}/` : ""
+  }${movieResource}?api_key=${API_KEY}&page=${pageNum}`;
+
+  try {
+    const { data } = await axios.get(URL);
+    res.send(data);
+  } catch {
+    res.status(404).send("Movie not found");
+  }
+});
+
 exports.movieRouter = movieRouter;

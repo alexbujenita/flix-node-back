@@ -9,8 +9,9 @@ randomRouter.get("/", async (_, res) => {
     const randomMovies = [];
     let failSafe = 0;
     while (randomMovies.length < 25) {
-      if (++failSafe > 10) throw new Error("Too many requests");
-      const { data } = await axios.get(randomQueryString());
+      if (++failSafe > 10) break; // return what we have instead of erroring if there are too many requests
+      const rndQuery = randomQueryString();
+      const { data } = await axios.get(rndQuery);
       const iterations = randomInt(2, 7);
       for (let i = 0; i < iterations; i++) {
         const [movie, idx] = sample(data.results);

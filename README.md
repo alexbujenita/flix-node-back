@@ -74,6 +74,15 @@ the actor's info, such as name.
 
 Accepts a GET request with the film's ID in the params, retrieves it and before sending it back to the client it caches it in a Map for future use. In case of error return 404.
 
+OR
+
+```
+"/:movieId/:movieResource"
+```
+
+Which can query a similar movie by sending an ID, or by sending a string that can't be
+parsed to an INT you could get other resources, comments in the file.
+
 ### Movie credits
 
 Accepts a GET request with the film's ID in the params, retrieves its credits and before sending it back to the client it caches it in a Map for future use. In case of error return 404.
@@ -92,7 +101,7 @@ A health check route. Responds to GET request to which, if alive, returns a 200 
 
 ### Random
 
-Accepts a GET request, and returns a random list of films. If it enters an infinite loop there is a fail safe mechanism to break out of it and return a 501 status code.
+Accepts a GET request, and returns a random list of films. If it enters an infinite loop there is a fail safe mechanism to break out of it and return the list.
 
 ### Search
 
