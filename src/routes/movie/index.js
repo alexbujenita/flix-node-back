@@ -5,6 +5,12 @@ const { colours } = require("../../utils/colours");
 
 const movieCache = new Map();
 
+/**
+ * Can have &append_to_response= query, which merges other resources into the response.
+ * Possible combination are (comma separated)
+ * images
+ * recommendations
+ */
 movieRouter.get("/:movieId", async (req, res) => {
   const {
     params: { movieId },
