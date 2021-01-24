@@ -19,7 +19,7 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 3a. Implement JWT <- DONE
 3b. Invalidate JWT or cookies after a while --> keep the same exp for both
 3c. should send back the token on register or ask to signIn --> without auto sign-in
-3d. Invalide cookie on logout
+3d. Invalidate cookie on logout
     ^^^ DONE ^^^
 4. In the end the only unprotected routes will be the auth ones
 4. XXX for now only favs, decide later if others need auth
@@ -47,6 +47,7 @@ XXX Went for bcrypt, it's protected against time attacks as well XXX
 
 ------------------------------------------------------------------------------------------
 1. Write some documentation
+^^^ Done ^^^
 2. Write the README.md
 ------------------------------------------------------------------------------------------
 
