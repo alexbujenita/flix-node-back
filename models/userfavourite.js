@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class UserFavourite extends Model {
     /**
@@ -10,48 +8,53 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      UserFavourite.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
-  };
-  UserFavourite.init({
-    movieRefId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    movieTitle: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    moviePosterPath: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    seen: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    watchlist: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    rating: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
-    description: {
-      type: DataTypes.TEXT,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
+  }
+  UserFavourite.init(
+    {
+      movieRefId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      movieTitle: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      moviePosterPath: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      seen: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      watchlist: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      rating: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+      description: {
+        type: DataTypes.TEXT,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: "Users",
-          key: "id"
-        }
+          key: "id",
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "UserFavourite",
     }
-  }, {
-    sequelize,
-    modelName: 'UserFavourite',
-  });
+  );
   return UserFavourite;
 };

@@ -29,8 +29,8 @@ const applyApi = (app) => {
     "/status": pingRouter,
   };
 
-  for (const path of Object.keys(routes)) {
-    app.use(path, routes[path]);
+  for (const [path, router] of Object.entries(routes)) {
+    app.use(path, router);
   }
 };
 
