@@ -10,6 +10,7 @@ Check what branch I'm on before committing...
 3. Try #2 with setImmediate for async
 4. Have a better folder structure for sequelize!!!
 XXX Done using sequelize-cli XXX
+5. Pass the secrets as env variables
 
 For auth:
 1. Decide how to hash the passwords, either with bcrypt or argon2, the latter is protected against time attacks
