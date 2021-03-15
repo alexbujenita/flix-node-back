@@ -40,7 +40,7 @@ function randomQueryString() {
     )}&vote_count.gte=100&sort_by=vote_average.desc`,
   ];
 
-  return sample(queryStrings)[0];
+  return sample(queryStrings, false);
 }
 
 exports.random = { randomQueryString, sample, randomInt };
