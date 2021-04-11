@@ -1,9 +1,9 @@
 const authJWT = require("../../middleware/auth/authJWT");
+const API_KEY = require("../../../secrets").API_KEY;
 const userFavsRouter = require("express").Router();
-const path = require("path");
-const fs = require("fs");
 const db = require("../../../models/index");
-const { pipeline } = require("stream");
+const PDFDocument = require("pdfkit");
+const axios = require("axios");
 
 userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
@@ -23,25 +23,55 @@ userFavsRouter.get("/pdf", authJWT, async (req, res) => {
     const userFavs = await db.UserFavourite.findAll({
       where: { userId: req.loggedUser },
     });
-    
-    for (const fav of userFavs) {
-      console.log(fav.toJSON())
-    }
 
     if (!userFavs) throw new Error("User not found.");
-    res.send(userFavs);
-    // const file = fs.createReadStream(
-    //   path.join(__dirname + "../../../../male.pdf")
-    // );
-    // const stat = fs.statSync(path.join(__dirname + "../../../../male.pdf"));
 
-    // res.setHeader("Content-Length", stat.size);
-    // res.setHeader("Content-Type", "application/pdf");
-    // pipeline(file, res, (e) => {
-    //   if(e) {
-    //     console.log(e);
-    //   } else {console.log('done')}
-    // });
+    const doc = new PDFDocument({ size: "A4" });
+
+    doc.pipe(res);
+
+    for (const fav of userFavs) {
+      const { movieRefId } = fav.toJSON();
+      const {
+        data: {
+          title,
+          tagline,
+          runtime,
+          overview,
+          original_title,
+          poster_path,
+        },
+      } = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movieRefId}?api_key=${API_KEY}`
+      );
+      doc
+        .font("Helvetica")
+        .fontSize(25)
+        .text(title || original_title);
+      tagline && doc.font("Helvetica").fontSize(18).text(tagline);
+
+      if (poster_path) {
+        const {
+          data,
+        } = await axios(`https://image.tmdb.org/t/p/w342${poster_path}`, {
+          responseType: "arraybuffer",
+        });
+        const img = Buffer.from(data, "base64");
+        doc.image(img);
+      }
+
+      overview && doc.font("Helvetica").fontSize(14).text(overview);
+      doc.addPage();
+    }
+
+    doc.font("Helvetica").fontSize(25).text("Some text with an embedded font!");
+
+    doc
+      .addPage()
+      .fontSize(25)
+      .text("Here is some vector graphics...", 100, 100);
+
+    doc.end();
   } catch (error) {
     res.status(500).send({ error: error?.message ?? "Internal server error" });
   }
