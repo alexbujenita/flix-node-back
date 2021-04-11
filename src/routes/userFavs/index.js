@@ -1,6 +1,9 @@
 const authJWT = require("../../middleware/auth/authJWT");
 const userFavsRouter = require("express").Router();
+const path = require("path");
+const fs = require("fs");
 const db = require("../../../models/index");
+const { pipeline } = require("stream");
 
 userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
@@ -10,6 +13,35 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
     });
     if (!userFavs) throw new Error("User not found.");
     res.send(userFavs);
+  } catch (error) {
+    res.status(500).send({ error: error?.message ?? "Internal server error" });
+  }
+});
+
+userFavsRouter.get("/pdf", authJWT, async (req, res) => {
+  try {
+    const userFavs = await db.UserFavourite.findAll({
+      where: { userId: req.loggedUser },
+    });
+    
+    for (const fav of userFavs) {
+      console.log(fav.toJSON())
+    }
+
+    if (!userFavs) throw new Error("User not found.");
+    res.send(userFavs);
+    // const file = fs.createReadStream(
+    //   path.join(__dirname + "../../../../male.pdf")
+    // );
+    // const stat = fs.statSync(path.join(__dirname + "../../../../male.pdf"));
+
+    // res.setHeader("Content-Length", stat.size);
+    // res.setHeader("Content-Type", "application/pdf");
+    // pipeline(file, res, (e) => {
+    //   if(e) {
+    //     console.log(e);
+    //   } else {console.log('done')}
+    // });
   } catch (error) {
     res.status(500).send({ error: error?.message ?? "Internal server error" });
   }
