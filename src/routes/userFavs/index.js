@@ -26,7 +26,7 @@ userFavsRouter.get("/pdf", authJWT, async (req, res) => {
 
     if (!userFavs) throw new Error("User not found.");
 
-    const doc = new PDFDocument({ size: "A4" });
+    const doc = new PDFDocument({ size: "A4", pdfVersion: '1.7' });
 
     doc.pipe(res);
 
@@ -77,7 +77,7 @@ userFavsRouter.get("/pdf", authJWT, async (req, res) => {
         doc.font("Helvetica").fontSize(14).text('\n');
 
         let height = 100;
-        for (let i = 0; i < 10 && i < cast.length; i++) {
+        for (let i = 0; i < 5 && i < cast.length; i++) {
           if (cast[i].profile_path) {
             const { data } = await axios(
               `https://image.tmdb.org/t/p/w185${cast[i].profile_path}`,
@@ -92,11 +92,6 @@ userFavsRouter.get("/pdf", authJWT, async (req, res) => {
               .text(cast[i].name + " as " + cast[i].character, 50, height + 50, {align: "center"});
             
             height += 150;
-
-            if(i === 4) {
-              doc.addPage()
-              height = 50;
-            }
 
           } else {
             doc
