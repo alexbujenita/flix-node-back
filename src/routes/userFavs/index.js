@@ -1,6 +1,8 @@
 const authJWT = require("../../middleware/auth/authJWT");
 const userFavsRouter = require("express").Router();
 const db = require("../../../models/index");
+const PDFDocument = require("pdfkit");
+const generateFavPages = require("../../utils/generateFavPages");
 
 userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
@@ -10,6 +12,29 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
     });
     if (!userFavs) throw new Error("User not found.");
     res.send(userFavs);
+  } catch (error) {
+    res.status(500).send({ error: error?.message ?? "Internal server error" });
+  }
+});
+
+userFavsRouter.get("/pdf", authJWT, async (req, res) => {
+  try {
+    const userFavs = await db.UserFavourite.findAll({
+      where: { userId: req.loggedUser },
+    });
+
+    if (!userFavs) throw new Error("User not found.");
+
+    const doc = new PDFDocument({ size: "A4", pdfVersion: "1.7" });
+    doc.pipe(res);
+    await generateFavPages(userFavs, doc);
+    doc
+      .font("Helvetica")
+      .fontSize(25)
+      .text("Thank you for using MyFlix!\nAlex Bujenita", 50, 400, {
+        align: "center",
+      });
+    doc.end();
   } catch (error) {
     res.status(500).send({ error: error?.message ?? "Internal server error" });
   }
