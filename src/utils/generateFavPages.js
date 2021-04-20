@@ -12,6 +12,7 @@ async function generateFavPages(userFavs, doc) {
         overview,
         original_title,
         poster_path,
+        release_date,
         credits: { cast },
       },
     } = await axios.get(
@@ -20,7 +21,10 @@ async function generateFavPages(userFavs, doc) {
     doc
       .font("Helvetica")
       .fontSize(25)
-      .text(title || original_title);
+      .text(
+        (title || original_title) +
+          (release_date ? ` (${release_date.substring(0, 4)})` : "")
+      );
     tagline && doc.font("Helvetica").fontSize(16).text(tagline);
 
     if (poster_path) {
