@@ -17,10 +17,10 @@ signInRouter.post("/", async (req, res) => {
       const token = jwt.sign(payload, PRIVATE_KEY, {
         expiresIn: "2 days",
       });
-      res.cookie("JWT_TOKEN", token, {
+      res.cookie("JWT_TOKEN_MY_FLIX", token, {
         maxAge: 2 * 24 * 60 * 60 * 1000, // multiplier days hours minutes secs ms (2 DAYS)
         // You can't access these tokens in the client's javascript if true
-        httpOnly: true,
+        httpOnly: false,
         domain: "localhost",
         path: "/",
         signed: false,

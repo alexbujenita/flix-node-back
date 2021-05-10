@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = async function (req, res, next) {
   try {
-    const decoded = jwt.verify(req.cookies.JWT_TOKEN, PRIVATE_KEY);
+    const decoded = jwt.verify(req.cookies.JWT_TOKEN_MY_FLIX, PRIVATE_KEY);
     req.loggedUser = decoded.userId;
     next();
   } catch (error) {
