@@ -7,11 +7,37 @@ const generateFavPages = require("../../utils/generateFavPages");
 userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
     const userFavs = await db.User.findByPk(req.loggedUser, {
-      include: db.UserFavourite,
-      attributes: { exclude: ["email", "passwordDigest"] },
+      order: [[db.UserFavourite, "movieTitle", "ASC"]],
+      include: {
+        model: db.UserFavourite,
+        attributes: [
+          "movieRefId",
+          "movieTitle",
+          "moviePosterPath",
+          "seen",
+          "watchlist",
+          "rating",
+          "description",
+        ],
+      },
+      attributes: ["firstName", "lastName"],
     });
     if (!userFavs) throw new Error("User not found.");
     res.send(userFavs);
+  } catch (error) {
+    res.status(500).send({ error: error?.message ?? "Internal server error" });
+  }
+});
+
+userFavsRouter.get("/user-favs/:originalId", authJWT, async (req, res) => {
+  try {
+    const fav = await db.UserFavourite.findOne({
+      where: {
+        movieRefId: parseInt(req.params.originalId),
+        userId: req.loggedUser,
+      },
+    });
+    res.send(fav);
   } catch (error) {
     res.status(500).send({ error: error?.message ?? "Internal server error" });
   }
