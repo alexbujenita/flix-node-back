@@ -6,23 +6,45 @@ const generateFavPages = require("../../utils/generateFavPages");
 
 userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
-    const userFavs = await db.User.findByPk(req.loggedUser, {
+    const { page: pageQuery, seen, all } = req.query;
+    const page = pageQuery ? parseInt(pageQuery, 10) : 1;
+    const limit = all ? 1_000_000 : 20;
+    const offset = (page - 1) * 20;
+
+    const where = {};
+
+    if (seen === "true") {
+      where.seen = true;
+    } else if (seen === "false") {
+      where.seen = false;
+    }
+
+    const userFavs = await db.User.findAndCountAll({
+      where: { id: req.loggedUser },
+      subQuery: false,
+      limit,
+      offset,
       order: [[db.UserFavourite, "movieTitle", "ASC"]],
-      include: {
-        model: db.UserFavourite,
-        attributes: [
-          "movieRefId",
-          "movieTitle",
-          "moviePosterPath",
-          "seen",
-          "watchlist",
-          "rating",
-          "description",
-        ],
-      },
+      include: [
+        {
+          model: db.UserFavourite,
+          attributes: [
+            "movieRefId",
+            "movieTitle",
+            "moviePosterPath",
+            "seen",
+            "watchlist",
+            "rating",
+            "description",
+          ],
+          where,
+        },
+      ],
       attributes: ["firstName", "lastName"],
     });
     if (!userFavs) throw new Error("User not found.");
+    userFavs.page = page;
+    userFavs.totalPages = Math.ceil(userFavs.count / 20);
     res.send(userFavs);
   } catch (error) {
     res.status(500).send({ error: error?.message ?? "Internal server error" });
