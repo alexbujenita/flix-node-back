@@ -6,7 +6,7 @@ const generateFavPages = require("../../utils/generateFavPages");
 
 userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
-    const { page: pageQuery, seen, all } = req.query;
+    const { page: pageQuery, seen, all, searchQuery } = req.query;
     const page = pageQuery ? parseInt(pageQuery, 10) : 1;
     const limit = all ? 1_000_000 : 20;
     const offset = (page - 1) * 20;
@@ -17,6 +17,10 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
       where.seen = true;
     } else if (seen === "false") {
       where.seen = false;
+    }
+
+    if (searchQuery) {
+      where.movieTitle = { [db.Sequelize.Op.substring]: searchQuery };
     }
 
     const userFavs = await db.User.findAndCountAll({
