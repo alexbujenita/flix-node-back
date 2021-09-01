@@ -20,7 +20,12 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
     }
 
     if (searchQuery) {
-      where.movieTitle = { [db.Sequelize.Op.substring]: searchQuery };
+      // isn't there a better way for Postgres!?
+      where.movieTitle = db.sequelize.where(
+        db.sequelize.fn("LOWER", db.sequelize.col("movieTitle")),
+        "LIKE",
+        `%${searchQuery.toLowerCase()}%`
+      );
     }
 
     const userFavs = await db.User.findAndCountAll({
@@ -45,6 +50,7 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
         },
       ],
       attributes: ["firstName", "lastName"],
+      benchmark: true,
     });
     if (!userFavs) throw new Error("User not found.");
     userFavs.page = page;
