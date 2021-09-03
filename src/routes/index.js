@@ -1,16 +1,17 @@
 const { pingRouter } = require("./ping");
-const { moviesRouter } = require("./movies");
 const { movieRouter } = require("./movie");
-const { movieTrailerRouter } = require("./movieTrailer");
-const { movieCreditsRouter } = require("./movieCredits");
-const { actorMoviesRouter } = require("./actorMovies");
+const { moviesRouter } = require("./movies");
+const { actorInfo } = require("./actorInfo");
 const { searchRouter } = require("./search");
 const { randomRouter } = require("./random");
+const { userFavsRouter } = require("./userFavs");
 const { signUpRouter } = require("./auth/signUp");
 const { signInRouter } = require("./auth/signIn");
-const { userFavsRouter } = require("./userFavs");
-const { actorInfo } = require("./actorInfo");
 const { logoutRouter } = require("./auth/logout");
+const { actorMoviesRouter } = require("./actorMovies");
+const { movieCreditsRouter } = require("./movieCredits");
+const { movieTrailerRouter } = require("./movieTrailer");
+const { recommendationRouter } = require("./recommendation");
 
 const applyApi = (app) => {
   const routes = {
@@ -25,6 +26,7 @@ const applyApi = (app) => {
     "/api/auth/login": signInRouter,
     "/api/auth/logout": logoutRouter,
     "/api/favs": userFavsRouter,
+    "/api/recommendation": recommendationRouter,
     "/api/actor-info": actorInfo,
     "/status": pingRouter,
   };

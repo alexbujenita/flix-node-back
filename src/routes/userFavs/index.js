@@ -44,6 +44,7 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
             "seen",
             "watchlist",
             "rating",
+            "isRecommended",
             "description",
           ],
           where,

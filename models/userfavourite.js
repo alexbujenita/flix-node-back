@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         type: DataTypes.TEXT,
       },
+      isRecommended: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: 0,
+      },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
