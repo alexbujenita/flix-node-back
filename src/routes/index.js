@@ -12,23 +12,25 @@ const { actorMoviesRouter } = require("./actorMovies");
 const { movieCreditsRouter } = require("./movieCredits");
 const { movieTrailerRouter } = require("./movieTrailer");
 const { recommendationRouter } = require("./recommendation");
+const { certificationsRouter } = require("./certifications");
 
 const applyApi = (app) => {
   const routes = {
-    "/api/movies": moviesRouter,
+    "/status": pingRouter,
     "/api/movie": movieRouter,
-    "/api/actor-movies": actorMoviesRouter,
-    "/api/trailers": movieTrailerRouter,
-    "/api/credits": movieCreditsRouter,
+    "/api/movies": moviesRouter,
+    "/api/favs": userFavsRouter,
+    "/api/actor-info": actorInfo,
     "/api/search": searchRouter,
     "/api/random": randomRouter,
-    "/api/auth/register": signUpRouter,
     "/api/auth/login": signInRouter,
     "/api/auth/logout": logoutRouter,
-    "/api/favs": userFavsRouter,
+    "/api/auth/register": signUpRouter,
+    "/api/credits": movieCreditsRouter,
+    "/api/trailers": movieTrailerRouter,
+    "/api/actor-movies": actorMoviesRouter,
     "/api/recommendation": recommendationRouter,
-    "/api/actor-info": actorInfo,
-    "/status": pingRouter,
+    "/api/certifications": certificationsRouter,
   };
 
   for (const [path, router] of Object.entries(routes)) {
