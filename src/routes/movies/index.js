@@ -1,18 +1,37 @@
 const moviesRouter = require("express").Router();
 const axios = require("axios");
-const API_KEY = require("../../../secrets").API_KEY;
+const { buildQueryString } = require("./buildQueryString");
 
 moviesRouter.get("/", async (req, res) => {
   const {
-    query: { page = 1 },
+    query: {
+      page,
+      certification,
+      certificationCountry,
+      primaryReleaseYear,
+      primaryReleaseDateGTE,
+      primaryReleaseDateLTE,
+      year,
+      adult,
+    },
   } = req;
+
+  const searchParams = {
+    page,
+    certification,
+    certificationCountry,
+    primaryReleaseYear,
+    primaryReleaseDateGTE,
+    primaryReleaseDateLTE,
+    year,
+    adult,
+  };
+
   if (page < 1 || page > 500) {
     res.status(404).send("Page must be between 1 and 500");
   } else {
     try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
-      );
+      const { data } = await axios.get(buildQueryString(searchParams));
       res.send(data);
     } catch (error) {
       console.error(error);
