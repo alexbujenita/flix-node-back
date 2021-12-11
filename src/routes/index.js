@@ -1,4 +1,5 @@
 const { pingRouter } = require("./ping");
+const { adminRouter } = require("./admin");
 const { movieRouter } = require("./movie");
 const { moviesRouter } = require("./movies");
 const { actorInfo } = require("./actorInfo");
@@ -17,6 +18,7 @@ const { certificationsRouter } = require("./certifications");
 const applyApi = (app) => {
   const routes = {
     "/status": pingRouter,
+    "/admin": adminRouter,
     "/api/movie": movieRouter,
     "/api/movies": moviesRouter,
     "/api/favs": userFavsRouter,
