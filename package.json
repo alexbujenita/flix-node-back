@@ -18,17 +18,17 @@
   },
   "homepage": "https://github.com/alexbujenita/flix-node-back#readme",
   "dependencies": {
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "lodash.uniqby": "^4.7.0",
     "nodemon": "^2.0.15",
     "pdfkit": "^0.13.0",
-    "sequelize": "^6.15.0",
+    "sequelize": "^6.17.0",
     "sqlite3": "^5.0.2"
   },
   "nodemonConfig": {
