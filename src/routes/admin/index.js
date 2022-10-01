@@ -3,7 +3,7 @@ const adminRouter = require("express").Router();
 const db = require("../../../models/index");
 const authJWT = require("../../middleware/auth/authJWT");
 
-const USER_ATTRB = ["id", "firstName", "lastName"];
+const USER_ATTRB = ["id", "firstName", "lastName", "email"];
 
 adminRouter.get("/users", authJWT, async (req, res) => {
   if (req.loggedUser !== 1) {

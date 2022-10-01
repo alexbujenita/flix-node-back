@@ -14,6 +14,7 @@ const { movieCreditsRouter } = require("./movieCredits");
 const { movieTrailerRouter } = require("./movieTrailer");
 const { recommendationRouter } = require("./recommendation");
 const { certificationsRouter } = require("./certifications");
+const { herokuMigrationRouter } = require("./heroku_migration");
 
 const applyApi = (app) => {
   const routes = {
@@ -30,6 +31,7 @@ const applyApi = (app) => {
     "/api/auth/register": signUpRouter,
     "/api/credits": movieCreditsRouter,
     "/api/trailers": movieTrailerRouter,
+    "/api/migration": herokuMigrationRouter,
     "/api/actor-movies": actorMoviesRouter,
     "/api/recommendation": recommendationRouter,
     "/api/certifications": certificationsRouter,
