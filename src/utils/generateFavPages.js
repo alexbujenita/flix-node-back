@@ -1,7 +1,7 @@
 const axios = require("axios");
 const API_KEY = require("../../secrets").API_KEY;
 
-async function generateFavPages(userFavs, doc) {
+async function generateFavPages(userFavs, doc, includeCast) {
   for (const fav of userFavs) {
     const { movieRefId } = fav.toJSON();
     const {
@@ -47,7 +47,7 @@ async function generateFavPages(userFavs, doc) {
         .fontSize(16)
         .text("Runtime: " + runtime + " minutes.", { lineGap: 5 });
 
-    if (cast && cast.length) {
+    if (includeCast && cast && cast.length) {
       doc.addPage();
       doc.font("Helvetica").fontSize(18).text("Starring:", { align: "center" });
       doc.font("Helvetica").fontSize(14).text("\n");

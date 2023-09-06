@@ -77,6 +77,8 @@ userFavsRouter.get("/user-favs/:originalId", authJWT, async (req, res) => {
 });
 
 userFavsRouter.get("/pdf", authJWT, async (req, res) => {
+  const includeCast = req.query.includeCast === "true";
+
   try {
     const userFavs = await db.UserFavourite.findAll({
       where: { userId: req.loggedUser },
@@ -86,7 +88,7 @@ userFavsRouter.get("/pdf", authJWT, async (req, res) => {
 
     const doc = new PDFDocument({ size: "A4", pdfVersion: "1.7" });
     doc.pipe(res);
-    await generateFavPages(userFavs, doc);
+    await generateFavPages(userFavs, doc, includeCast);
     doc
       .font("Helvetica")
       .fontSize(25)
