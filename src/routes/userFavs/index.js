@@ -86,7 +86,7 @@ userFavsRouter.get("/pdf", authJWT, async (req, res) => {
 
     if (!userFavs) throw new Error("User not found.");
 
-    const doc = new PDFDocument({ size: "A4", pdfVersion: "1.7" });
+    const doc = new PDFDocument({ size: "A4", pdfVersion: "1.7ext3" });
     doc.pipe(res);
     await generateFavPages(userFavs, doc, includeCast);
     doc

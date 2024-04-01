@@ -23,7 +23,7 @@ async function generateFavPages(userFavs, doc, includeCast) {
       .fontSize(25)
       .text(
         (title || original_title) +
-          (release_date ? ` (${release_date.substring(0, 4)})` : "")
+        (release_date ? ` (${release_date.substring(0, 4)})` : "")
       );
     tagline && doc.font("Helvetica").fontSize(16).text(tagline);
 
@@ -36,6 +36,7 @@ async function generateFavPages(userFavs, doc, includeCast) {
       );
       const img = Buffer.from(data, "base64");
       doc.image(img, { scale: 0.75 });
+      doc.moveDown(20);
     }
 
     doc.font("Helvetica").fontSize(14).text("\n", { lineGap: 5 });
