@@ -5,6 +5,7 @@ const { moviesRouter } = require("./movies");
 const { actorInfo } = require("./actorInfo");
 const { searchRouter } = require("./search");
 const { randomRouter } = require("./random");
+const { tvSeriesRouter } = require("./tvSeries");
 const { userFavsRouter } = require("./userFavs");
 const { signUpRouter } = require("./auth/signUp");
 const { signInRouter } = require("./auth/signIn");
@@ -20,6 +21,7 @@ const applyApi = (app) => {
   const routes = {
     "/status": pingRouter,
     "/admin": adminRouter,
+    "/api/tv": tvSeriesRouter,
     "/api/movie": movieRouter,
     "/api/movies": moviesRouter,
     "/api/favs": userFavsRouter,

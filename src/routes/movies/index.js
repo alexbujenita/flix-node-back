@@ -28,7 +28,7 @@ moviesRouter.get("/", async (req, res) => {
   };
 
   if (page < 1 || page > 500) {
-    res.status(404).send("Page must be between 1 and 500");
+    res.status(400).send("Page must be between 1 and 500");
   } else {
     try {
       const { data } = await axios.get(buildQueryString(searchParams));
