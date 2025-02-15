@@ -28,13 +28,29 @@ tvSeriesRouter.get("/:tvSeriesId", async (req, res) => {
   const {
     params: { tvSeriesId },
   } = req;
-console.log({tvSeriesId});
+  console.log({ tvSeriesId });
   try {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/tv/${tvSeriesId}?api_key=${API_KEY}`
     );
     res.send(data);
-  } catch (e){
+  } catch (e) {
+    console.log(e);
+    res.status(404).send("TV Series not found");
+  }
+});
+
+tvSeriesRouter.get("/:tvSeriesId/season/:seasonNumber", async (req, res) => {
+  const {
+    params: { tvSeriesId, seasonNumber },
+  } = req;
+  console.log({ tvSeriesId, seasonNumber });
+  try {
+    const { data } = await axios.get(
+      `https://api.themoviedb.org/3/tv/${tvSeriesId}/season/${seasonNumber}?api_key=${API_KEY}`
+    );
+    res.send(data);
+  } catch (e) {
     console.log(e);
     res.status(404).send("TV Series not found");
   }
