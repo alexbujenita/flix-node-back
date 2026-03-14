@@ -29,7 +29,7 @@
     "nodemon": "^3.1.11",
     "pdfkit": "^0.17.2",
     "sequelize": "^6.37.7",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^6.0.1"
   },
   "nodemonConfig": {
     "delay": "2000"
