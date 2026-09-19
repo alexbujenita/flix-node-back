@@ -89,6 +89,22 @@ describe("recommendation routes", () => {
     });
   });
 
+  test("GET /api/recommendation/:userId returns 500 when its database query fails", async () => {
+    const caller = await makeUser();
+    jest
+      .spyOn(db.UserFavourite, "findAndCountAll")
+      .mockRejectedValueOnce(new Error("user recommendation query failed"));
+
+    const response = await request(createApp())
+      .get(`/api/recommendation/${caller.id}`)
+      .set("Cookie", authCookie(caller.id));
+
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({
+      error: "user recommendation query failed",
+    });
+  });
+
   test("PATCH /api/recommendation/:originalIdFav updates the caller's favourite", async () => {
     const caller = await makeUser();
     const favourite = await makeFav(caller.id, {

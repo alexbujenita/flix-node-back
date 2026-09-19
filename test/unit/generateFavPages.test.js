@@ -165,6 +165,28 @@ describe("generateFavPages", () => {
     expect(details.isDone()).toBe(true);
   });
 
+  test("heads each page with the title and release year, falling back to the original title and omitting a missing year", async () => {
+    const doc = createDoc();
+    const complete = mockDetails(808, { poster_path: null });
+    const incomplete = mockDetails(909, {
+      title: null,
+      release_date: null,
+      poster_path: null,
+    });
+
+    await generateFavPages(
+      [favourite(808), favourite(909)],
+      doc,
+      false,
+      new AbortController().signal,
+    );
+
+    expect(doc.text).toHaveBeenCalledWith("Synthetic Movie 808 (2026)");
+    expect(doc.text).toHaveBeenCalledWith("Synthetic Original 909");
+    expect(complete.isDone()).toBe(true);
+    expect(incomplete.isDone()).toBe(true);
+  });
+
   test("returns immediately without document or TMDB work when already aborted", async () => {
     const controller = new AbortController();
     const doc = createDoc();

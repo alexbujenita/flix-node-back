@@ -107,7 +107,21 @@ $ npm run test:coverage:integration
 ```
 
 Note that a single-project run reports low coverage for code the other project
-exercises, so use `npm run test:coverage` for the real picture.
+exercises, so use `npm run test:coverage` for the real picture. Those two
+scripts pass `--coverageThreshold={}` for exactly this reason.
+
+`src` currently sits at 100% of statements, lines and functions, and 95.62% of
+branches. `jest.config.js` enforces that as a floor, so `npm run test:coverage`
+fails if a change drops below it.
+
+The seven uncovered branches are deliberate, not gaps:
+
+- `error?.message ?? "Internal server error"` fallbacks in `recommendation` and
+  `userFavs`. Sequelize always rejects with a real `Error`, so the right-hand
+  side is unreachable.
+- `if (res.headersSent)` in the PDF route. `doc.pipe(res)` flushes PDFKit's
+  header immediately, so the headers are always already sent by the time that
+  `catch` runs.
 
 ### Recording fixtures
 

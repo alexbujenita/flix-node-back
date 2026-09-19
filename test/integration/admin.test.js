@@ -108,4 +108,28 @@ describe("admin", () => {
     expect(nonexistentPair.status).toBe(400);
     expect(await db.UserFavourite.findByPk(otherFavourite.id)).not.toBeNull();
   });
+
+  test("GET /admin/users returns 400 when the user query fails", async () => {
+    jest
+      .spyOn(db.User, "findAndCountAll")
+      .mockRejectedValueOnce(new Error("synthetic user query failure"));
+
+    const response = await request(app)
+      .get("/admin/users")
+      .set("Cookie", authCookie(1));
+
+    expect(response.status).toBe(400);
+  });
+
+  test("GET /admin/users/:id/movies returns 400 when the favourites query fails", async () => {
+    jest
+      .spyOn(db.User, "findAndCountAll")
+      .mockRejectedValueOnce(new Error("synthetic favourites query failure"));
+
+    const response = await request(app)
+      .get("/admin/users/3/movies")
+      .set("Cookie", authCookie(1));
+
+    expect(response.status).toBe(400);
+  });
 });

@@ -50,6 +50,18 @@ async function expectCacheMissHitAndModuleIsolation({
 }
 
 describe("router Map caches", () => {
+  test("movie cache misses once, hits for an identical detail request, and is module-isolated", async () => {
+    const responseBody = { id: 7, title: "Synthetic detail movie" };
+
+    await expectCacheMissHitAndModuleIsolation({
+      modulePath: "../../src/routes/movie",
+      exportName: "movieRouter",
+      requestPath: "/7",
+      responseBody,
+      intercept: (body) => tmdbGet("/3/movie/7", { api_key: API_KEY }, body),
+    });
+  });
+
   test("movie cache misses once, hits for an identical include-all request, and is module-isolated", async () => {
     const responseBody = {
       id: 5,

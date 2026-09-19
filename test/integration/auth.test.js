@@ -60,6 +60,19 @@ describe("auth", () => {
       });
     });
 
+    test("falls back to a generic message when the database error carries no message", async () => {
+      jest
+        .spyOn(db.User, "create")
+        .mockRejectedValueOnce({ errors: [{ path: "email" }] });
+
+      const response = await request(createApp())
+        .post("/api/auth/register")
+        .send(registration);
+
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Error creating user" });
+    });
+
     // B2: hashing failures should use the route's JSON error contract.
     test.failing("returns JSON when password hashing fails", async () => {
       const hashSpy = jest

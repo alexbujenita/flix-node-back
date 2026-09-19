@@ -226,6 +226,25 @@ describe("movies-and-tv discover and details routes", () => {
       expect(tvRequest.isDone()).toBe(true);
     });
 
+    test("defaults to page 1 and excludes adult results when no query is supplied", async () => {
+      const tvRequest = nock(tmdb)
+        .get("/3/discover/tv")
+        .query({
+          api_key: apiKey,
+          sort_by: "popularity.desc",
+          include_adult: "false",
+          include_video: "false",
+          page: "1",
+        })
+        .reply(200, tvDiscoverResponse);
+
+      const response = await request(app).get("/api/tv");
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(tvDiscoverResponse);
+      expect(tvRequest.isDone()).toBe(true);
+    });
+
     test("returns 501 when TMDB fails", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
       nock(tmdb)

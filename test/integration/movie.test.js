@@ -126,6 +126,19 @@ describe("movie.test movie routes", () => {
       expect(response.body).toEqual(fixture);
       expect(tmdbRequest.isDone()).toBe(true);
     });
+
+    test("returns 404 Movie not found when TMDB fails", async () => {
+      const tmdbRequest = nock(tmdb)
+        .get("/3/movie/6")
+        .query(movieQuery({ append_to_response: "credits,videos" }))
+        .reply(503, { status_message: "Synthetic upstream failure" });
+
+      const response = await request(app).get("/api/movie/6/include-all");
+
+      expect(response.status).toBe(404);
+      expect(response.text).toBe("Movie not found");
+      expect(tmdbRequest.isDone()).toBe(true);
+    });
   });
 
   describe("GET /api/movie/:movieId/:movieResource", () => {
@@ -191,6 +204,19 @@ describe("movie.test movie routes", () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(fixture);
+      expect(tmdbRequest.isDone()).toBe(true);
+    });
+
+    test("returns 404 Movie not found when TMDB fails", async () => {
+      const tmdbRequest = nock(tmdb)
+        .get("/3/movie/777/similar")
+        .query(movieQuery({ page: "1" }))
+        .reply(503, { status_message: "Synthetic upstream failure" });
+
+      const response = await request(app).get("/api/movie/777/similar");
+
+      expect(response.status).toBe(404);
+      expect(response.text).toBe("Movie not found");
       expect(tmdbRequest.isDone()).toBe(true);
     });
   });

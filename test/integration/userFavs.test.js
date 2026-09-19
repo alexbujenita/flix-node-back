@@ -141,6 +141,18 @@ describe("userFavs CRUD endpoints", () => {
       expect(response.status).toBe(500);
       expect(response.body).toEqual({ error: "list failed" });
     });
+
+    test("returns 500 User not found when the query yields nothing", async () => {
+      const user = await makeUser();
+      jest.spyOn(db.User, "findAndCountAll").mockResolvedValueOnce(null);
+
+      const response = await request(app)
+        .get("/api/favs/user-favs")
+        .set("Cookie", authCookie(user.id));
+
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "User not found." });
+    });
   });
 
   describe("GET /api/favs/user-favs/:originalId", () => {

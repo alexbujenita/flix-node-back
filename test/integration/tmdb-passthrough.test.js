@@ -1,3 +1,4 @@
+const axios = require("axios");
 const nock = require("nock");
 const request = require("supertest");
 const { createApp } = require("../../src/app");
@@ -138,6 +139,17 @@ describe("tmdb-passthrough random movies", () => {
     const response = await request(app).get("/api/random");
 
     expect(response.status).toBe(501);
+  });
+
+  test("GET /api/random falls back to a generic message when the failure carries none", async () => {
+    jest.spyOn(Math, "random").mockReturnValue(0);
+    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(axios, "get").mockRejectedValueOnce(undefined);
+
+    const response = await request(app).get("/api/random");
+
+    expect(response.status).toBe(501);
+    expect(response.text).toBe("Internal server error");
   });
 });
 
