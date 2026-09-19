@@ -3,6 +3,7 @@ const userFavsRouter = require("express").Router();
 const db = require("../../../models/index");
 const PDFDocument = require("pdfkit");
 const generateFavPages = require("../../utils/generateFavPages");
+const { createRequestAbortController } = require("../../utils/requestAbort");
 
 userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
   try {
@@ -78,17 +79,36 @@ userFavsRouter.get("/user-favs/:originalId", authJWT, async (req, res) => {
 
 userFavsRouter.get("/pdf", authJWT, async (req, res) => {
   const includeCast = req.query.includeCast === "true";
+  const request = createRequestAbortController(req, res);
+  let doc;
+  let destroyDocument;
 
   try {
     const userFavs = await db.UserFavourite.findAll({
       where: { userId: req.loggedUser },
     });
 
+    if (request.isAborted()) {
+      return;
+    }
+
     if (!userFavs) throw new Error("User not found.");
 
-    const doc = new PDFDocument({ size: "A4", pdfVersion: "1.7ext3" });
+    doc = new PDFDocument({ size: "A4", pdfVersion: "1.7ext3" });
+    destroyDocument = () => {
+      if (!doc.destroyed) {
+        doc.destroy();
+      }
+    };
+    res.once("close", destroyDocument);
     doc.pipe(res);
-    await generateFavPages(userFavs, doc, includeCast);
+    await generateFavPages(userFavs, doc, includeCast, request.signal);
+
+    if (request.isAborted()) {
+      destroyDocument();
+      return;
+    }
+
     doc
       .font("Helvetica")
       .fontSize(25)
@@ -97,7 +117,27 @@ userFavsRouter.get("/pdf", authJWT, async (req, res) => {
       });
     doc.end();
   } catch (error) {
+    if (request.isAborted()) {
+      destroyDocument?.();
+      return;
+    }
+
+    if (doc) {
+      destroyDocument();
+
+      if (res.headersSent) {
+        console.error(error);
+        res.destroy();
+        return;
+      }
+    }
+
     res.status(500).send({ error: error?.message ?? "Internal server error" });
+  } finally {
+    request.cleanup();
+    if (destroyDocument) {
+      res.off("close", destroyDocument);
+    }
   }
 });
 

@@ -12,7 +12,7 @@ tvSeriesRouter.get("/", async (req, res) => {
   };
 
   if (page < 1 || page > 500) {
-    res.status(400).send("Page must be between 1 and 500");
+    return res.status(400).send("Page must be between 1 and 500");
   }
 
   try {
@@ -29,10 +29,12 @@ tvSeriesRouter.get("/:tvSeriesId", async (req, res) => {
     params: { tvSeriesId },
   } = req;
   console.log({ tvSeriesId });
+
   try {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/tv/${tvSeriesId}?api_key=${API_KEY}`
     );
+
     res.send(data);
   } catch (e) {
     console.log(e);
@@ -45,10 +47,12 @@ tvSeriesRouter.get("/:tvSeriesId/season/:seasonNumber", async (req, res) => {
     params: { tvSeriesId, seasonNumber },
   } = req;
   console.log({ tvSeriesId, seasonNumber });
+
   try {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/tv/${tvSeriesId}/season/${seasonNumber}?api_key=${API_KEY}`
     );
+
     res.send(data);
   } catch (e) {
     console.log(e);

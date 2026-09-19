@@ -18,6 +18,7 @@ actorInfo.get("/:actorId", async (req, res) => {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/person/${actorId}?api_key=${API_KEY}&language=en-US&append_to_response=images`
       );
+
       actorInfoCache.set(data.id, data);
       res.send(data);
     } catch {

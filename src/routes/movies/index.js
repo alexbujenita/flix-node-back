@@ -28,15 +28,15 @@ moviesRouter.get("/", async (req, res) => {
   };
 
   if (page < 1 || page > 500) {
-    res.status(400).send("Page must be between 1 and 500");
-  } else {
-    try {
-      const { data } = await axios.get(buildQueryString(searchParams));
-      res.send(data);
-    } catch (error) {
-      console.error(error);
-      res.status(501).send("Internal server error");
-    }
+    return res.status(400).send("Page must be between 1 and 500");
+  }
+
+  try {
+    const { data } = await axios.get(buildQueryString(searchParams));
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(501).send("Internal server error");
   }
 });
 

@@ -24,6 +24,7 @@ movieRouter.get("/:movieId", async (req, res) => {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
       );
+
       movieCache.set(data.id, data);
       res.send(data);
     } catch {
@@ -45,6 +46,7 @@ movieRouter.get("/:movieId/include-all", async (req, res) => {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=credits,videos`
       );
+
       movieCache.set(data.id + 'includes', data);
       res.send(data);
     } catch {
@@ -61,7 +63,7 @@ movieRouter.get("/:movieId/:movieResource", async (req, res) => {
   } = req;
 
   const URL = `https://api.themoviedb.org/3/movie/${
-    !!parseInt(movieId) ? `${movieId}/` : ""
+    parseInt(movieId) ? `${movieId}/` : ""
   }${movieResource}?api_key=${API_KEY}&page=${pageNum}`;
 
   try {

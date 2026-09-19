@@ -1,8 +1,12 @@
 const axios = require("axios");
 const API_KEY = require("../../secrets").API_KEY;
 
-async function generateFavPages(userFavs, doc, includeCast) {
+async function generateFavPages(userFavs, doc, includeCast, signal) {
   for (const fav of userFavs) {
+    if (signal.aborted) {
+      return;
+    }
+
     const { movieRefId } = fav.toJSON();
     const {
       data: {
@@ -16,7 +20,8 @@ async function generateFavPages(userFavs, doc, includeCast) {
         credits: { cast },
       },
     } = await axios.get(
-      `https://api.themoviedb.org/3/movie/${movieRefId}?api_key=${API_KEY}&append_to_response=credits`
+      `https://api.themoviedb.org/3/movie/${movieRefId}?api_key=${API_KEY}&append_to_response=credits`,
+      { signal }
     );
     doc
       .font("Helvetica")
@@ -32,6 +37,7 @@ async function generateFavPages(userFavs, doc, includeCast) {
         `https://image.tmdb.org/t/p/w342${poster_path}`,
         {
           responseType: "arraybuffer",
+          signal,
         }
       );
       const img = Buffer.from(data, "base64");
@@ -55,11 +61,16 @@ async function generateFavPages(userFavs, doc, includeCast) {
 
       let height = 100;
       for (let i = 0; i < 5 && i < cast.length; i++) {
+        if (signal.aborted) {
+          return;
+        }
+
         if (cast[i].profile_path) {
           const { data } = await axios(
             `https://image.tmdb.org/t/p/w185${cast[i].profile_path}`,
             {
               responseType: "arraybuffer",
+              signal,
             }
           );
           const img = Buffer.from(data, "base64");

@@ -41,6 +41,14 @@ Finally you can run the server by:
 $ npm start
 ```
 
+## Validation
+
+Run ESLint across the backend with:
+
+```bash
+$ npm run lint
+```
+
 ## Auth middleware
 
 ~~Checks the presence of the auth headers and tries to decode it, if successful 

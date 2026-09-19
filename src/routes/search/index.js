@@ -21,6 +21,7 @@ searchRouter.get("/:entity", async (req, res) => {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/search/${entity}?api_key=${API_KEY}&query=${searchTerm.trim()}&page=${pageNum}&include_adult=${includeAdult}`
       );
+
       searchCache.set(qString, data);
       res.send(data);
     } catch {

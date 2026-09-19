@@ -6,7 +6,7 @@ module.exports = async function (req, res, next) {
     const decoded = jwt.verify(req.cookies.JWT_TOKEN_MY_FLIX, PRIVATE_KEY);
     req.loggedUser = decoded.userId;
     next();
-  } catch (error) {
+  } catch {
     return res.status(401).send("Invalid token");
   }
 };
