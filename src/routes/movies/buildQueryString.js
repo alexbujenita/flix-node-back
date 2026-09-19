@@ -35,7 +35,7 @@ string
 Comma separated value of genre ids that you want to exclude from the results.
 
  */
-const API_KEY = require("../../../secrets").API_KEY;
+const API_KEY = require("../../config/secrets").API_KEY;
 
 /**
  * Concatenates various params

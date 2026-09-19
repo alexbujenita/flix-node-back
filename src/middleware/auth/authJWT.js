@@ -1,4 +1,4 @@
-const { PRIVATE_KEY } = require("../../../secrets");
+const { PRIVATE_KEY } = require("../../config/secrets");
 const jwt = require("jsonwebtoken");
 
 module.exports = async function (req, res, next) {

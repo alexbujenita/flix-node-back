@@ -1,6 +1,6 @@
 const actorInfo = require("express").Router();
 const axios = require("axios");
-const API_KEY = require("../../../secrets").API_KEY;
+const API_KEY = require("../../config/secrets").API_KEY;
 const { colours } = require("../../utils/colours");
 
 const actorInfoCache = new Map();

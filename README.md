@@ -49,6 +49,59 @@ Run ESLint across the backend with:
 $ npm run lint
 ```
 
+## Testing
+
+Run the whole suite:
+
+```bash
+$ npm test
+```
+
+Or one project at a time:
+
+```bash
+$ npm run test:unit
+$ npm run test:integration
+```
+
+Tests don't need a `secrets.js` file. The test setup injects `API_KEY` and
+`PRIVATE_KEY` as environment variables, so you can clone and run the suite
+without any local secrets.
+
+### Recording fixtures
+
+```bash
+$ npm run fixtures:record
+```
+
+This hits the real TMDB API, so it needs a valid TMDB key in the environment.
+
+Status: fixture recording can't complete right now. The recorder looks for a
+pair of actor discover pages that naturally overlap, and no such pair was found
+in the TMDB data we sampled. As a documented interim substitution, tests 20, 21
+and 29-31 use synthetic data served through `nock`, shaped like real TMDB
+responses. These should be swapped for real fixtures once recording works.
+
+### TODO
+
+Some tests fail on purpose. They pin down bugs that are still in the codebase:
+
+- IDOR in `userFavs`: a user can read and modify another user's
+  favourites. This is a live security issue and it's still unfixed. Treat it as
+  the priority.
+- `signUp` returns an HTML error page instead of JSON when bcrypt
+  throws.
+- `search` throws a `TypeError` on certain inputs.
+- the recommendation route answers 204 where it should answer 404.
+- `userFavs` uses a truthy check on the limit value, so a limit of 0
+  is ignored.
+- the PDF response is missing its `content-type` header.
+- `search` doesn't encode the search term into the URL properly.
+
+B5 and B8 are missing from that list on purpose. Both were investigated and
+turned out not to be bugs, and the original numbering was kept so the notes and
+test names still line up.
+
 ## Auth middleware
 
 ~~Checks the presence of the auth headers and tries to decode it, if successful 
