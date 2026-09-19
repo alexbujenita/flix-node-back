@@ -1,5 +1,5 @@
 const axios = require("axios");
-const API_KEY = require("../../secrets").API_KEY;
+const API_KEY = require("../config/secrets").API_KEY;
 
 async function generateFavPages(userFavs, doc, includeCast, signal) {
   for (const fav of userFavs) {

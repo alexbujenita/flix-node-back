@@ -1,7 +1,7 @@
 const actorMoviesRouter = require("express").Router();
 const axios = require("axios");
 const uniqBy = require("lodash.uniqby");
-const API_KEY = require("../../../secrets").API_KEY;
+const API_KEY = require("../../config/secrets").API_KEY;
 const { colours } = require("../../utils/colours");
 
 const actorMoviesCache = new Map();

@@ -1,6 +1,6 @@
 const tvSeriesRouter = require("express").Router();
 const axios = require("axios");
-const API_KEY = require("../../../secrets").API_KEY;
+const API_KEY = require("../../config/secrets").API_KEY;
 const { buildTvDiscoveryQuery } = require("./buildTvDiscoverQuery");
 
 tvSeriesRouter.get("/", async (req, res) => {
