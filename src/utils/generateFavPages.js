@@ -21,14 +21,14 @@ async function generateFavPages(userFavs, doc, includeCast, signal) {
       },
     } = await axios.get(
       `https://api.themoviedb.org/3/movie/${movieRefId}?api_key=${API_KEY}&append_to_response=credits`,
-      { signal }
+      { signal },
     );
     doc
       .font("Helvetica")
       .fontSize(25)
       .text(
         (title || original_title) +
-        (release_date ? ` (${release_date.substring(0, 4)})` : "")
+          (release_date ? ` (${release_date.substring(0, 4)})` : ""),
       );
     tagline && doc.font("Helvetica").fontSize(16).text(tagline);
 
@@ -38,7 +38,7 @@ async function generateFavPages(userFavs, doc, includeCast, signal) {
         {
           responseType: "arraybuffer",
           signal,
-        }
+        },
       );
       const img = Buffer.from(data, "base64");
       doc.image(img, { scale: 0.75 });
@@ -71,7 +71,7 @@ async function generateFavPages(userFavs, doc, includeCast, signal) {
             {
               responseType: "arraybuffer",
               signal,
-            }
+            },
           );
           const img = Buffer.from(data, "base64");
 

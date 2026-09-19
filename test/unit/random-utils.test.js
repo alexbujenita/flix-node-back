@@ -42,7 +42,7 @@ describe("random utilities", () => {
       jest.spyOn(Math, "random").mockReturnValue(0.75);
 
       expect(sample(["first", "second", "third", "fourth"], false)).toBe(
-        "fourth"
+        "fourth",
       );
     });
 
@@ -62,40 +62,60 @@ describe("random utilities", () => {
     });
 
     it.each([
-      ["first standard discovery entry", 0, (params) => {
-        expect(params.get("include_adult")).toBe("true");
-        expect(params.get("include_video")).toBe("false");
-        expect(params.get("page")).toBe("1");
-        expect(params.get("sort_by")).toBeNull();
-      }],
-      ["second standard discovery entry", 0.2, (params) => {
-        expect(params.get("include_adult")).toBe("true");
-        expect(params.get("include_video")).toBe("false");
-        expect(params.get("page")).toBe("1");
-        expect(params.get("sort_by")).toBeNull();
-      }],
-      ["genre and vote-average discovery entry", 0.4, (params) => {
-        expect(params.get("page")).toBe("1");
-        expect(params.get("with_genres")).toBe("28");
-        expect(params.get("sort_by")).toBe("vote_average.desc");
-        expect(params.get("vote_count.gte")).toBe("100");
-        expect(params.get("include_adult")).toBeNull();
-      }],
-      ["alphabetical-title discovery entry", 0.6, (params) => {
-        expect(params.get("sort_by")).toBe("original_title.asc");
-        expect(params.get("include_adult")).toBe("false");
-        expect(params.get("include_video")).toBe("false");
-        expect(params.get("page")).toBe("1");
-      }],
-      ["release-year and vote-average discovery entry", 0.8, (params) => {
-        const releaseYear = Number(params.get("primary_release_year"));
+      [
+        "first standard discovery entry",
+        0,
+        (params) => {
+          expect(params.get("include_adult")).toBe("true");
+          expect(params.get("include_video")).toBe("false");
+          expect(params.get("page")).toBe("1");
+          expect(params.get("sort_by")).toBeNull();
+        },
+      ],
+      [
+        "second standard discovery entry",
+        0.2,
+        (params) => {
+          expect(params.get("include_adult")).toBe("true");
+          expect(params.get("include_video")).toBe("false");
+          expect(params.get("page")).toBe("1");
+          expect(params.get("sort_by")).toBeNull();
+        },
+      ],
+      [
+        "genre and vote-average discovery entry",
+        0.4,
+        (params) => {
+          expect(params.get("page")).toBe("1");
+          expect(params.get("with_genres")).toBe("28");
+          expect(params.get("sort_by")).toBe("vote_average.desc");
+          expect(params.get("vote_count.gte")).toBe("100");
+          expect(params.get("include_adult")).toBeNull();
+        },
+      ],
+      [
+        "alphabetical-title discovery entry",
+        0.6,
+        (params) => {
+          expect(params.get("sort_by")).toBe("original_title.asc");
+          expect(params.get("include_adult")).toBe("false");
+          expect(params.get("include_video")).toBe("false");
+          expect(params.get("page")).toBe("1");
+        },
+      ],
+      [
+        "release-year and vote-average discovery entry",
+        0.8,
+        (params) => {
+          const releaseYear = Number(params.get("primary_release_year"));
 
-        expect(releaseYear).toBeGreaterThanOrEqual(1957);
-        expect(releaseYear).toBeLessThanOrEqual(FIXED_CURRENT_YEAR - 2);
-        expect(params.get("vote_count.gte")).toBe("100");
-        expect(params.get("sort_by")).toBe("vote_average.desc");
-        expect(params.get("page")).toBeNull();
-      }],
+          expect(releaseYear).toBeGreaterThanOrEqual(1957);
+          expect(releaseYear).toBeLessThanOrEqual(FIXED_CURRENT_YEAR - 2);
+          expect(params.get("vote_count.gte")).toBe("100");
+          expect(params.get("sort_by")).toBe("vote_average.desc");
+          expect(params.get("page")).toBeNull();
+        },
+      ],
     ])("returns the %s", (_, querySelector, assertShape) => {
       jest
         .spyOn(Math, "random")

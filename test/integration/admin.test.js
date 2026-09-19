@@ -31,7 +31,7 @@ describe("admin", () => {
           lastName: "User",
           email: "test-user-1@example.test",
         }),
-      ])
+      ]),
     );
 
     for (const user of response.body.rows) {
@@ -68,9 +68,9 @@ describe("admin", () => {
       id: favouriteOwner.id,
       firstName: "Favourite",
     });
-    expect(response.body.rows[0].UserFavourites.map((fav) => fav.movieTitle)).toEqual(
-      ["Alpha", "Zulu"]
-    );
+    expect(
+      response.body.rows[0].UserFavourites.map((fav) => fav.movieTitle),
+    ).toEqual(["Alpha", "Zulu"]);
   });
 
   test("DELETE /admin/users/:userId/movie/:movieId rejects a non-superuser and deletes only the matching favourite primary key for user 1", async () => {

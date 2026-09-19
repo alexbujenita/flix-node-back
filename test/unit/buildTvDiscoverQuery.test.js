@@ -1,4 +1,6 @@
-const { buildTvDiscoveryQuery } = require("../../src/routes/tvSeries/buildTvDiscoverQuery");
+const {
+  buildTvDiscoveryQuery,
+} = require("../../src/routes/tvSeries/buildTvDiscoverQuery");
 
 function buildSearchParams(searchParams) {
   return new URL(buildTvDiscoveryQuery(searchParams)).searchParams;

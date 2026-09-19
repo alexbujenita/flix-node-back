@@ -57,7 +57,7 @@ async function getActorMoviePages(apiKey, actorId) {
     }
     if (page === 2) {
       throw new Error(
-        `Actor ${actorId} discover pages 1 and 2 do not share a movie id; choose fixture IDs with a real overlapping consecutive pair.`
+        `Actor ${actorId} discover pages 1 and 2 do not share a movie id; choose fixture IDs with a real overlapping consecutive pair.`,
       );
     }
   }
@@ -92,7 +92,7 @@ async function recordFixtures(apiKey) {
   });
   const [actorMoviesPage1, actorMoviesPage2] = await getActorMoviePages(
     apiKey,
-    actorId
+    actorId,
   );
   const fixtures = {
     "movie.json": movie,
@@ -124,7 +124,7 @@ async function recordFixtures(apiKey) {
     "tv-series.json": await getJson(apiKey, `tv/${tvId}`),
     "tv-season.json": await getJson(
       apiKey,
-      `tv/${tvId}/season/${seasonNumber}`
+      `tv/${tvId}/season/${seasonNumber}`,
     ),
     "search-multi.json": await getJson(apiKey, "search/multi", {
       query: "Fight Club",
@@ -139,13 +139,13 @@ async function recordFixtures(apiKey) {
     "movie-videos.json": await getJson(apiKey, `movie/${movieId}/videos`),
     "movie-certifications.json": await getJson(
       apiKey,
-      "certification/movie/list"
+      "certification/movie/list",
     ),
   };
 
   const posterPath = movieWithCredits.poster_path;
   const profilePath = movieWithCredits.credits.cast.find(
-    ({ profile_path: candidate }) => candidate
+    ({ profile_path: candidate }) => candidate,
   )?.profile_path;
   if (!posterPath || !profilePath) {
     throw new Error("Chosen movie does not provide both required image paths.");
@@ -157,8 +157,11 @@ async function recordFixtures(apiKey) {
   await fs.mkdir(IMAGE_DIRECTORY, { recursive: true });
   await Promise.all(
     Object.entries(fixtures).map(([name, data]) =>
-      fs.writeFile(path.join(TMDB_DIRECTORY, name), serializeJson(data, apiKey))
-    )
+      fs.writeFile(
+        path.join(TMDB_DIRECTORY, name),
+        serializeJson(data, apiKey),
+      ),
+    ),
   );
   await fs.writeFile(path.join(IMAGE_DIRECTORY, "poster.jpg"), poster);
   await fs.writeFile(path.join(IMAGE_DIRECTORY, "profile.jpg"), profile);
@@ -170,7 +173,7 @@ async function main() {
   const apiKey = loadApiKey();
   if (!apiKey) {
     console.error(
-      "TMDB API key is required. Set TMDB_API_KEY or add API_KEY to root secrets.js."
+      "TMDB API key is required. Set TMDB_API_KEY or add API_KEY to root secrets.js.",
     );
     process.exitCode = 1;
     return;
@@ -181,7 +184,9 @@ async function main() {
     console.log(`Recorded ${files.length} TMDB fixtures.`);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error(`Unable to record TMDB fixtures: ${message.split(apiKey).join("[REDACTED]")}`);
+    console.error(
+      `Unable to record TMDB fixtures: ${message.split(apiKey).join("[REDACTED]")}`,
+    );
     process.exitCode = 1;
   }
 }

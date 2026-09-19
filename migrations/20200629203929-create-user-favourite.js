@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('UserFavourites', {
+    await queryInterface.createTable("UserFavourites", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       movieRefId: {
         type: Sequelize.INTEGER,
@@ -26,11 +26,11 @@ module.exports = {
       },
       watchlist: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: false,
       },
       rating: {
         type: Sequelize.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
       },
       description: {
         type: Sequelize.TEXT,
@@ -40,20 +40,20 @@ module.exports = {
         allowNull: false,
         references: {
           model: "Users",
-          key: "id"
-        }
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface) => {
-    await queryInterface.dropTable('UserFavourites');
-  }
+    await queryInterface.dropTable("UserFavourites");
+  },
 };

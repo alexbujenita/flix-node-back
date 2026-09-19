@@ -125,7 +125,7 @@ describe("recommendation routes", () => {
     expect(
       await db.UserFavourite.count({
         where: { userId: caller.id, isRecommended: true },
-      })
+      }),
     ).toBe(100);
   });
 
@@ -149,26 +149,29 @@ describe("recommendation routes", () => {
     expect(
       await db.UserFavourite.count({
         where: { userId: caller.id, isRecommended: true },
-      })
+      }),
     ).toBe(100);
   });
 
   // B4: an update that matches no favourite should report a missing resource.
-  test.failing("PATCH /api/recommendation/:originalIdFav returns 404 for a favourite the caller does not own", async () => {
-    const caller = await makeUser();
-    const otherUser = await makeUser();
-    const otherUsersFavourite = await makeFav(otherUser.id, {
-      movieRefId: 41,
-      isRecommended: false,
-    });
+  test.failing(
+    "PATCH /api/recommendation/:originalIdFav returns 404 for a favourite the caller does not own",
+    async () => {
+      const caller = await makeUser();
+      const otherUser = await makeUser();
+      const otherUsersFavourite = await makeFav(otherUser.id, {
+        movieRefId: 41,
+        isRecommended: false,
+      });
 
-    const response = await request(createApp())
-      .patch(`/api/recommendation/${otherUsersFavourite.movieRefId}`)
-      .set("Cookie", authCookie(caller.id))
-      .send({ recommended: true });
+      const response = await request(createApp())
+        .patch(`/api/recommendation/${otherUsersFavourite.movieRefId}`)
+        .set("Cookie", authCookie(caller.id))
+        .send({ recommended: true });
 
-    expect(response.status).toBe(404);
-    await otherUsersFavourite.reload();
-    expect(otherUsersFavourite.isRecommended).toBe(false);
-  });
+      expect(response.status).toBe(404);
+      await otherUsersFavourite.reload();
+      expect(otherUsersFavourite.isRecommended).toBe(false);
+    },
+  );
 });

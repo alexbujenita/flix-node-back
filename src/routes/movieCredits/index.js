@@ -15,7 +15,7 @@ movieCreditsRouter.get("/:movieId", async (req, res) => {
   } else {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${API_KEY}`,
       );
 
       creditsCache.set(data.id, data);

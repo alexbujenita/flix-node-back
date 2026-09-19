@@ -1,5 +1,5 @@
-const nock = require('nock');
-const { afterAll, afterEach, beforeAll } = require('@jest/globals');
+const nock = require("nock");
+const { afterAll, afterEach, beforeAll } = require("@jest/globals");
 
 beforeAll(() => {
   nock.disableNetConnect();
@@ -17,7 +17,7 @@ afterEach(() => {
     nock.cleanAll();
   }
 
-  throw new Error(`Unused nock interceptors: ${pendingMocks.join(', ')}`);
+  throw new Error(`Unused nock interceptors: ${pendingMocks.join(", ")}`);
 });
 
 afterAll(() => {

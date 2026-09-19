@@ -68,7 +68,9 @@ describe("movie.test movie routes", () => {
       const tmdbRequest = nock(tmdb)
         .get("/3/movie/404")
         .query(movieQuery())
-        .reply(404, { status_message: "The resource you requested could not be found." });
+        .reply(404, {
+          status_message: "The resource you requested could not be found.",
+        });
 
       const response = await request(app).get("/api/movie/404");
 
@@ -97,12 +99,19 @@ describe("movie.test movie routes", () => {
         ...movieFixture,
         id: 5,
         credits: {
-          cast: [{ id: 287, name: "Synthetic Performer", character: "Narrator" }],
+          cast: [
+            { id: 287, name: "Synthetic Performer", character: "Narrator" },
+          ],
           crew: [{ id: 7467, name: "Synthetic Director", job: "Director" }],
         },
         videos: {
           results: [
-            { id: "synthetic-video", key: "fixture-key", site: "YouTube", type: "Trailer" },
+            {
+              id: "synthetic-video",
+              key: "fixture-key",
+              site: "YouTube",
+              type: "Trailer",
+            },
           ],
         },
       };
@@ -123,7 +132,9 @@ describe("movie.test movie routes", () => {
     test("includes a numeric movie id and defaults pageNum to 1", async () => {
       const fixture = {
         page: 1,
-        results: [{ ...movieFixture, id: 551, title: "Synthetic Similar Movie" }],
+        results: [
+          { ...movieFixture, id: 551, title: "Synthetic Similar Movie" },
+        ],
         total_pages: 1,
         total_results: 1,
       };
@@ -140,14 +151,19 @@ describe("movie.test movie routes", () => {
     });
 
     test("forwards a supplied pageNum", async () => {
-      const fixture = { page: 3, results: [], total_pages: 3, total_results: 40 };
+      const fixture = {
+        page: 3,
+        results: [],
+        total_pages: 3,
+        total_results: 40,
+      };
       const tmdbRequest = nock(tmdb)
         .get("/3/movie/550/recommendations")
         .query(movieQuery({ page: "3" }))
         .reply(200, fixture);
 
       const response = await request(app).get(
-        "/api/movie/550/recommendations?pageNum=3"
+        "/api/movie/550/recommendations?pageNum=3",
       );
 
       expect(response.status).toBe(200);
@@ -158,7 +174,9 @@ describe("movie.test movie routes", () => {
     test("omits a movie id that parseInt cannot parse", async () => {
       const fixture = {
         page: 2,
-        results: [{ ...movieFixture, id: 552, title: "Synthetic Popular Movie" }],
+        results: [
+          { ...movieFixture, id: 552, title: "Synthetic Popular Movie" },
+        ],
         total_pages: 10,
         total_results: 200,
       };
@@ -168,7 +186,7 @@ describe("movie.test movie routes", () => {
         .reply(200, fixture);
 
       const response = await request(app).get(
-        "/api/movie/not-a-number/popular?pageNum=2"
+        "/api/movie/not-a-number/popular?pageNum=2",
       );
 
       expect(response.status).toBe(200);

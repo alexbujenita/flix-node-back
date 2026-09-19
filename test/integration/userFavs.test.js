@@ -17,8 +17,8 @@ async function makeFavPage(userId, count = 25) {
       makeFav(userId, {
         movieRefId: 10_000 + index,
         movieTitle: `Movie ${String(index + 1).padStart(2, "0")}`,
-      })
-    )
+      }),
+    ),
   );
 }
 
@@ -39,9 +39,9 @@ describe("userFavs CRUD endpoints", () => {
         .set("Cookie", authCookie(caller.id));
 
       expect(response.status).toBe(200);
-      expect(getFavourites(response).map(({ movieRefId }) => movieRefId)).toEqual([
-        101, 102,
-      ]);
+      expect(
+        getFavourites(response).map(({ movieRefId }) => movieRefId),
+      ).toEqual([101, 102]);
     });
 
     test.each([
@@ -67,9 +67,9 @@ describe("userFavs CRUD endpoints", () => {
         .set("Cookie", authCookie(user.id));
 
       expect(response.status).toBe(200);
-      expect(getFavourites(response).map(({ movieRefId }) => movieRefId)).toEqual(
-        expectedIds
-      );
+      expect(
+        getFavourites(response).map(({ movieRefId }) => movieRefId),
+      ).toEqual(expectedIds);
     });
 
     test("matches searchQuery case-insensitively and partially", async () => {
@@ -87,9 +87,9 @@ describe("userFavs CRUD endpoints", () => {
         .set("Cookie", authCookie(user.id));
 
       expect(response.status).toBe(200);
-      expect(getFavourites(response).map(({ movieRefId }) => movieRefId)).toEqual([
-        303, 301,
-      ]);
+      expect(
+        getFavourites(response).map(({ movieRefId }) => movieRefId),
+      ).toEqual([303, 301]);
     });
 
     test("B5 characterises joined-row pagination across both pages", async () => {
@@ -154,7 +154,7 @@ describe("userFavs CRUD endpoints", () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(
-        expect.objectContaining({ movieRefId: 401, userId: user.id })
+        expect.objectContaining({ movieRefId: 401, userId: user.id }),
       );
     });
 
@@ -248,10 +248,10 @@ describe("userFavs CRUD endpoints", () => {
       expect(seenOnce.body.seen).toBe(true);
       expect(seenTwice.body.seen).toBe(false);
       expect(falseBooleans.body).toEqual(
-        expect.objectContaining({ seen: false, watchlist: false })
+        expect.objectContaining({ seen: false, watchlist: false }),
       );
       expect(falseStrings.body).toEqual(
-        expect.objectContaining({ seen: true, watchlist: true })
+        expect.objectContaining({ seen: true, watchlist: true }),
       );
       expect(numericZero.body.rating).toBe(4);
       expect(stringZero.body.rating).toBe(0);
@@ -272,33 +272,36 @@ describe("userFavs CRUD endpoints", () => {
     });
 
     // B1: ownership must be checked before mutating another user's favourite.
-    test.failing("B1 rejects cross-user updates without changing the row", async () => {
-      const userA = await makeUser();
-      const userB = await makeUser();
-      const fav = await makeFav(userB.id, {
-        movieRefId: 602,
-        seen: false,
-        description: "Owned by B",
-      });
-
-      const response = await request(app)
-        .patch(`/api/favs/${fav.movieRefId}`)
-        .set("Cookie", authCookie(userA.id))
-        .send({ seen: true, description: "Changed by A" });
-      const rowAfterRequest = await db.UserFavourite.findByPk(fav.id);
-
-      expect({
-        protectedStatus: [403, 404].includes(response.status),
-        row: rowAfterRequest?.toJSON(),
-      }).toEqual({
-        protectedStatus: true,
-        row: expect.objectContaining({
-          userId: userB.id,
+    test.failing(
+      "B1 rejects cross-user updates without changing the row",
+      async () => {
+        const userA = await makeUser();
+        const userB = await makeUser();
+        const fav = await makeFav(userB.id, {
+          movieRefId: 602,
           seen: false,
           description: "Owned by B",
-        }),
-      });
-    });
+        });
+
+        const response = await request(app)
+          .patch(`/api/favs/${fav.movieRefId}`)
+          .set("Cookie", authCookie(userA.id))
+          .send({ seen: true, description: "Changed by A" });
+        const rowAfterRequest = await db.UserFavourite.findByPk(fav.id);
+
+        expect({
+          protectedStatus: [403, 404].includes(response.status),
+          row: rowAfterRequest?.toJSON(),
+        }).toEqual({
+          protectedStatus: true,
+          row: expect.objectContaining({
+            userId: userB.id,
+            seen: false,
+            description: "Owned by B",
+          }),
+        });
+      },
+    );
   });
 
   describe("DELETE /api/favs/:originalIdFav", () => {
@@ -326,27 +329,30 @@ describe("userFavs CRUD endpoints", () => {
     });
 
     // B1: ownership must be checked before destroying another user's favourite.
-    test.failing("B1 rejects cross-user deletes and keeps the row", async () => {
-      const userA = await makeUser();
-      const userB = await makeUser();
-      const fav = await makeFav(userB.id, { movieRefId: 702 });
+    test.failing(
+      "B1 rejects cross-user deletes and keeps the row",
+      async () => {
+        const userA = await makeUser();
+        const userB = await makeUser();
+        const fav = await makeFav(userB.id, { movieRefId: 702 });
 
-      const response = await request(app)
-        .delete(`/api/favs/${fav.movieRefId}`)
-        .set("Cookie", authCookie(userA.id));
-      const rowAfterRequest = await db.UserFavourite.findByPk(fav.id);
+        const response = await request(app)
+          .delete(`/api/favs/${fav.movieRefId}`)
+          .set("Cookie", authCookie(userA.id));
+        const rowAfterRequest = await db.UserFavourite.findByPk(fav.id);
 
-      expect({
-        protectedStatus: [403, 404].includes(response.status),
-        row: rowAfterRequest?.toJSON(),
-      }).toEqual({
-        protectedStatus: true,
-        row: expect.objectContaining({
-          id: fav.id,
-          userId: userB.id,
-          movieRefId: fav.movieRefId,
-        }),
-      });
-    });
+        expect({
+          protectedStatus: [403, 404].includes(response.status),
+          row: rowAfterRequest?.toJSON(),
+        }).toEqual({
+          protectedStatus: true,
+          row: expect.objectContaining({
+            id: fav.id,
+            userId: userB.id,
+            movieRefId: fav.movieRefId,
+          }),
+        });
+      },
+    );
   });
 });

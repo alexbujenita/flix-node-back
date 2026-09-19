@@ -22,7 +22,7 @@ actorMoviesRouter.get("/:actorId", async (req, res) => {
     try {
       do {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity_desc&include_adult=true&include_video=false&page=${page}&with_cast=${actorId}`
+          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity_desc&include_adult=true&include_video=false&page=${page}&with_cast=${actorId}`,
         );
 
         totalPages = data.total_pages;

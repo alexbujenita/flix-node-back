@@ -67,7 +67,15 @@ const tvDetailsResponse = {
   original_name: "Synthetic Series",
   overview: "Synthetic TMDB TV details.",
   poster_path: "/synthetic-tv-poster.jpg",
-  seasons: [{ air_date: "2011-04-17", episode_count: 10, id: 1, name: "Season 1", season_number: 1 }],
+  seasons: [
+    {
+      air_date: "2011-04-17",
+      episode_count: 10,
+      id: 1,
+      name: "Season 1",
+      season_number: 1,
+    },
+  ],
   status: "Ended",
 };
 
@@ -177,7 +185,10 @@ describe("movies-and-tv discover and details routes", () => {
 
     test("returns 501 when TMDB fails", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
-      nock(tmdb).get("/3/discover/movie").query(true).reply(503, { status_message: "Unavailable" });
+      nock(tmdb)
+        .get("/3/discover/movie")
+        .query(true)
+        .reply(503, { status_message: "Unavailable" });
 
       const response = await request(app).get("/api/movies?page=1");
 
@@ -206,7 +217,9 @@ describe("movies-and-tv discover and details routes", () => {
         })
         .reply(200, { ...tvDiscoverResponse, page });
 
-      const response = await request(app).get(`/api/tv?page=${page}&adult=true`);
+      const response = await request(app).get(
+        `/api/tv?page=${page}&adult=true`,
+      );
 
       expect(response.status).toBe(200);
       expect(response.body.page).toBe(page);
@@ -215,7 +228,10 @@ describe("movies-and-tv discover and details routes", () => {
 
     test("returns 501 when TMDB fails", async () => {
       jest.spyOn(console, "error").mockImplementation(() => {});
-      nock(tmdb).get("/3/discover/tv").query(true).reply(503, { status_message: "Unavailable" });
+      nock(tmdb)
+        .get("/3/discover/tv")
+        .query(true)
+        .reply(503, { status_message: "Unavailable" });
 
       const response = await request(app).get("/api/tv?page=1");
 
@@ -240,7 +256,10 @@ describe("movies-and-tv discover and details routes", () => {
 
     test("returns 404 when TMDB fails", async () => {
       jest.spyOn(console, "log").mockImplementation(() => {});
-      nock(tmdb).get("/3/tv/1399").query({ api_key: apiKey }).reply(404, { status_message: "Not found" });
+      nock(tmdb)
+        .get("/3/tv/1399")
+        .query({ api_key: apiKey })
+        .reply(404, { status_message: "Not found" });
 
       const response = await request(app).get("/api/tv/1399");
 

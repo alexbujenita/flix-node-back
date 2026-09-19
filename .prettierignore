@@ -1,0 +1,18 @@
+# Dependencies and lockfiles
+node_modules/
+package-lock.json
+
+# Secrets (also git-ignored)
+secrets.js
+
+# Local database and coverage output
+*.sqlite3
+coverage/
+
+# Recorded TMDB fixtures are generated API dumps, not hand-written source
+test/fixtures/tmdb/
+test/fixtures/images/
+
+# Tooling caches
+.omo/
+.codegraph/

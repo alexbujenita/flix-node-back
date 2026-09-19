@@ -7,7 +7,10 @@ let userNumber = 0;
 
 async function makeUser(overrides = {}) {
   userNumber += 1;
-  const passwordDigest = await bcrypt.hash(DEFAULT_PASSWORD, BCRYPT_COST_FACTOR);
+  const passwordDigest = await bcrypt.hash(
+    DEFAULT_PASSWORD,
+    BCRYPT_COST_FACTOR,
+  );
 
   return db.User.create({
     firstName: "Test",

@@ -24,12 +24,11 @@ async function migrate(sequelize) {
 }
 
 async function truncateAll(db) {
-  const storage =
-    db.sequelize.options.storage ?? db.sequelize.config.storage;
+  const storage = db.sequelize.options.storage ?? db.sequelize.config.storage;
 
   if (process.env.NODE_ENV !== "test" || storage !== ":memory:") {
     throw new Error(
-      "Refusing to truncate unless NODE_ENV is test and storage is :memory:"
+      "Refusing to truncate unless NODE_ENV is test and storage is :memory:",
     );
   }
 

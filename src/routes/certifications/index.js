@@ -12,7 +12,7 @@ certificationsRouter.get("/", async (_, res) => {
   } else {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/certification/movie/list?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/certification/movie/list?api_key=${API_KEY}`,
       );
 
       certCache.set("certs", data);

@@ -22,7 +22,7 @@ movieRouter.get("/:movieId", async (req, res) => {
   } else {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`,
       );
 
       movieCache.set(data.id, data);
@@ -38,16 +38,16 @@ movieRouter.get("/:movieId/include-all", async (req, res) => {
     params: { movieId },
   } = req;
 
-  if (movieCache.has(movieId + 'includes')) {
+  if (movieCache.has(movieId + "includes")) {
     console.log(colours.FgCyan, "Movie Cache INCLUDES HIT!!!");
-    res.send(movieCache.get(movieId + 'includes'));
+    res.send(movieCache.get(movieId + "includes"));
   } else {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=credits,videos`
+        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=credits,videos`,
       );
 
-      movieCache.set(data.id + 'includes', data);
+      movieCache.set(data.id + "includes", data);
       res.send(data);
     } catch {
       res.status(404).send("Movie not found");

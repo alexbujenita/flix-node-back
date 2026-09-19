@@ -25,7 +25,7 @@ userFavsRouter.get("/user-favs", authJWT, async (req, res) => {
       where.movieTitle = db.sequelize.where(
         db.sequelize.fn("LOWER", db.sequelize.col("movieTitle")),
         "LIKE",
-        `%${searchQuery.toLowerCase()}%`
+        `%${searchQuery.toLowerCase()}%`,
       );
     }
 

@@ -49,6 +49,24 @@ Run ESLint across the backend with:
 $ npm run lint
 ```
 
+## Formatting
+
+Prettier is configured in `.prettierrc.json`, with exclusions in `.prettierignore`.
+Both scripts cover the whole repo, including the `test/` suite. Recorded TMDB
+fixtures are excluded, since they are generated API dumps.
+
+Format everything in place:
+
+```bash
+$ npm run format
+```
+
+Check formatting without writing (useful in CI):
+
+```bash
+$ npm run format:check
+```
+
 ## Testing
 
 Run the whole suite:
@@ -104,7 +122,7 @@ test names still line up.
 
 ## Auth middleware
 
-~~Checks the presence of the auth headers and tries to decode it, if successful 
+~~Checks the presence of the auth headers and tries to decode it, if successful
 create a property on the req object with the actual user ID, if not return a 401.`~~
 
 Almost, now it checks the presence of the cookie.
@@ -122,7 +140,9 @@ The route accepts a POST request with the body containing the first name, last n
 The route accepts a POST request with the body containing the unique email address and the password. It finds the user by email and compares the hashed password with the received one, if successful it creates a JWT to be sent back to the client, if something doesn't match it send a 401 and if anything else goes wring a 404 status code.
 
 #### Logout
+
 A DELETE request to the route will delete the specified cookie/s.
+
 ### Actor movies
 
 Accepts a GET request with the actor's ID in the params, it then goes through all the existing pages and builds a list with all of the actor's films. In case of error return 501.
@@ -131,6 +151,7 @@ Accepts a GET request with the actor's ID in the params, it then goes through al
 
 Accepts a GET request with the actor's ID in the params, it return an object with
 the actor's info, such as name.
+
 ### Movie
 
 Accepts a GET request with the film's ID in the params, retrieves it and before sending it back to the client it caches it in a Map for future use. In case of error return 404.

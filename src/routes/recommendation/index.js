@@ -49,7 +49,7 @@ recommendationRouter.patch("/:originalIdFav", authJWT, async (req, res) => {
       { isRecommended: recommended },
       {
         where: { userId: req.loggedUser, movieRefId: originalIdFav },
-      }
+      },
     );
 
     res.sendStatus(204);

@@ -32,7 +32,7 @@ tvSeriesRouter.get("/:tvSeriesId", async (req, res) => {
 
   try {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/tv/${tvSeriesId}?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/tv/${tvSeriesId}?api_key=${API_KEY}`,
     );
 
     res.send(data);
@@ -50,7 +50,7 @@ tvSeriesRouter.get("/:tvSeriesId/season/:seasonNumber", async (req, res) => {
 
   try {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/tv/${tvSeriesId}/season/${seasonNumber}?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/tv/${tvSeriesId}/season/${seasonNumber}?api_key=${API_KEY}`,
     );
 
     res.send(data);

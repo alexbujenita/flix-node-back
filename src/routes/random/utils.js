@@ -31,12 +31,12 @@ function randomQueryString() {
     `${baseUrl}&include_adult=true&include_video=false&page=${randomInt()}`,
     `${baseUrl}&page=${randomInt(
       1,
-      5
+      5,
     )}&with_genres=${rndGenre}&sort_by=vote_average.desc&vote_count.gte=100`,
     `${baseUrl}&sort_by=original_title.asc&include_adult=false&include_video=false&page=${randomInt()}`,
     `${baseUrl}&primary_release_year=${randomInt(
       1957,
-      currentYear - 2
+      currentYear - 2,
     )}&vote_count.gte=100&sort_by=vote_average.desc`,
   ];
 

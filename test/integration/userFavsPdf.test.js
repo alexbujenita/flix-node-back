@@ -12,7 +12,7 @@ const posterPath = "/synthetic-poster.png";
 const profilePath = "/synthetic-profile.png";
 const onePixelPng = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC",
-  "base64"
+  "base64",
 );
 
 function binaryParser(response, callback) {
@@ -81,7 +81,7 @@ describe("GET /api/favs/pdf", () => {
 
     expect(response.status).toBe(200);
     expect(response.body.subarray(0, 4)).toEqual(
-      Buffer.from([0x25, 0x50, 0x44, 0x46])
+      Buffer.from([0x25, 0x50, 0x44, 0x46]),
     );
     expect(movieRequest.isDone()).toBe(true);
     expect(posterRequest.isDone()).toBe(true);
@@ -139,16 +139,17 @@ describe("GET /api/favs/pdf", () => {
       .reply(200, onePixelPng, { "Content-Type": "image/png" });
     const destroyDocument = jest.spyOn(PDFDocument.prototype, "destroy");
     const unhandledRejections = [];
-    const recordUnhandledRejection = (reason) => unhandledRejections.push(reason);
+    const recordUnhandledRejection = (reason) =>
+      unhandledRejections.push(reason);
     process.on("unhandledRejection", recordUnhandledRejection);
 
     try {
       const pdfRequest = getPdf(user.id, false);
       const posterRequestStarted = new Promise((resolve) =>
-        posterRequest.once("request", resolve)
+        posterRequest.once("request", resolve),
       );
       const requestResult = new Promise((resolve) =>
-        pdfRequest.end((error, response) => resolve(error ?? response))
+        pdfRequest.end((error, response) => resolve(error ?? response)),
       );
 
       await posterRequestStarted;

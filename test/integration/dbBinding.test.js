@@ -31,7 +31,7 @@ describe("dbBinding", () => {
           movieRefId: fav.movieRefId,
           movieTitle: fav.movieTitle,
         }),
-      ])
+      ]),
     );
   });
 });

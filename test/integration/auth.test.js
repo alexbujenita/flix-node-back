@@ -28,7 +28,7 @@ describe("auth", () => {
       });
       expect(user.passwordDigest).not.toBe(registration.password);
       await expect(
-        bcrypt.compare(registration.password, user.passwordDigest)
+        bcrypt.compare(registration.password, user.passwordDigest),
       ).resolves.toBe(true);
     });
 
@@ -97,15 +97,15 @@ describe("auth", () => {
         expect.arrayContaining([
           expect.stringMatching(
             new RegExp(
-              `^JWT_TOKEN_MY_FLIX=${response.body.jwt};.*Domain=localhost; Path=/`
-            )
+              `^JWT_TOKEN_MY_FLIX=${response.body.jwt};.*Domain=localhost; Path=/`,
+            ),
           ),
-        ])
+        ]),
       );
 
       const { userId, role } = jwt.verify(
         response.body.jwt,
-        process.env.JWT_PRIVATE_KEY
+        process.env.JWT_PRIVATE_KEY,
       );
       expect({ userId, role }).toEqual({ userId: user.id, role: "user" });
     });
@@ -122,12 +122,10 @@ describe("auth", () => {
     });
 
     test("rejects an unknown email as failed credentials", async () => {
-      const response = await request(createApp())
-        .post("/api/auth/login")
-        .send({
-          email: "unknown@example.test",
-          password: DEFAULT_PASSWORD,
-        });
+      const response = await request(createApp()).post("/api/auth/login").send({
+        email: "unknown@example.test",
+        password: DEFAULT_PASSWORD,
+      });
 
       expect(response.status).toBe(401);
       expect(response.body).toEqual({ error: "Failed credentials" });
@@ -153,16 +151,16 @@ describe("auth", () => {
       expect(response.headers["set-cookie"]).toEqual(
         expect.arrayContaining([
           expect.stringMatching(
-            /^JWT_TOKEN_MY_FLIX=; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/
+            /^JWT_TOKEN_MY_FLIX=; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/,
           ),
-        ])
+        ]),
       );
     });
 
     test("B8 characterises the missing logout cookie domain", async () => {
       const response = await request(createApp()).delete("/api/auth/logout");
       const clearingCookie = response.headers["set-cookie"].find((cookie) =>
-        cookie.startsWith("JWT_TOKEN_MY_FLIX=")
+        cookie.startsWith("JWT_TOKEN_MY_FLIX="),
       );
 
       // Login sets domain "localhost" and path "/", but logout clears with no

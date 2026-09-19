@@ -1,4 +1,6 @@
-const { buildQueryString } = require("../../src/routes/movies/buildQueryString");
+const {
+  buildQueryString,
+} = require("../../src/routes/movies/buildQueryString");
 
 function buildSearchParams(searchParams) {
   return new URL(buildQueryString(searchParams)).searchParams;
@@ -29,32 +31,43 @@ describe("buildQueryString", () => {
     expect(query.get("certification_country")).toBe("US");
   });
 
+  test.each([[{ certification: "PG-13" }], [{ certificationCountry: "US" }]])(
+    "omits certification filters when only one member of the pair is supplied",
+    (searchParams) => {
+      // Given: an incomplete certification filter pair
+
+      // When: the movie discover URL is built
+      const query = buildSearchParams(searchParams);
+
+      // Then: neither certification field is included
+      expect(query.has("certification")).toBe(false);
+      expect(query.has("certification_country")).toBe(false);
+    },
+  );
+
   test.each([
-    [{ certification: "PG-13" }],
-    [{ certificationCountry: "US" }],
-  ])("omits certification filters when only one member of the pair is supplied", (searchParams) => {
-    // Given: an incomplete certification filter pair
+    [
+      { primaryReleaseDateGTE: "2020-01-01" },
+      "primary_release_date.gte",
+      "2020-01-01",
+    ],
+    [
+      { primaryReleaseDateLTE: "2020-12-31" },
+      "primary_release_date.lte",
+      "2020-12-31",
+    ],
+  ])(
+    "adds each primary release date bound independently",
+    (searchParams, key, value) => {
+      // Given: one primary-release date bound
 
-    // When: the movie discover URL is built
-    const query = buildSearchParams(searchParams);
+      // When: the movie discover URL is built
+      const query = buildSearchParams(searchParams);
 
-    // Then: neither certification field is included
-    expect(query.has("certification")).toBe(false);
-    expect(query.has("certification_country")).toBe(false);
-  });
-
-  test.each([
-    [{ primaryReleaseDateGTE: "2020-01-01" }, "primary_release_date.gte", "2020-01-01"],
-    [{ primaryReleaseDateLTE: "2020-12-31" }, "primary_release_date.lte", "2020-12-31"],
-  ])("adds each primary release date bound independently", (searchParams, key, value) => {
-    // Given: one primary-release date bound
-
-    // When: the movie discover URL is built
-    const query = buildSearchParams(searchParams);
-
-    // Then: that bound is included
-    expect(query.get(key)).toBe(value);
-  });
+      // Then: that bound is included
+      expect(query.get(key)).toBe(value);
+    },
+  );
 
   test("adds both primary release date bounds together", () => {
     // Given: lower and upper primary-release date bounds

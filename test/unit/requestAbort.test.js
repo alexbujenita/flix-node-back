@@ -1,5 +1,7 @@
 const { EventEmitter } = require("events");
-const { createRequestAbortController } = require("../../src/utils/requestAbort");
+const {
+  createRequestAbortController,
+} = require("../../src/utils/requestAbort");
 
 function createRequestResponse() {
   return {
@@ -49,13 +51,16 @@ describe("requestAbort", () => {
     expect(signal.aborted).toBe(false);
   });
 
-  test.each(["destroyed", "writableEnded"])("reports an aborted request when response.%s is true", (property) => {
-    const { req, res } = createRequestResponse();
-    const controller = createRequestAbortController(req, res);
-    res[property] = true;
+  test.each(["destroyed", "writableEnded"])(
+    "reports an aborted request when response.%s is true",
+    (property) => {
+      const { req, res } = createRequestResponse();
+      const controller = createRequestAbortController(req, res);
+      res[property] = true;
 
-    expect(controller.isAborted()).toBe(true);
-  });
+      expect(controller.isAborted()).toBe(true);
+    },
+  );
 
   test("aborts only once when multiple abort lifecycle events occur", () => {
     const { req, res } = createRequestResponse();

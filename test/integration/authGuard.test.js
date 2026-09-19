@@ -36,14 +36,14 @@ describe("authGuard", () => {
         path,
         description,
         token,
-      ])
-    )
+      ]),
+    ),
   )("%s %s rejects %s", async (method, path, _description, token) => {
     let requestToProtectedRoute = request(createApp())[method](path);
     if (token !== undefined) {
       requestToProtectedRoute = requestToProtectedRoute.set(
         "Cookie",
-        `JWT_TOKEN_MY_FLIX=${token}`
+        `JWT_TOKEN_MY_FLIX=${token}`,
       );
     }
 

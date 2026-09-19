@@ -6,7 +6,7 @@ const IMAGE_ORIGIN = "https://image.tmdb.org";
 const POSTER_PATH = "/synthetic-poster.png";
 const IMAGE = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC",
-  "base64"
+  "base64",
 );
 
 function createDoc() {
@@ -90,7 +90,12 @@ describe("generateFavPages", () => {
       credits: { cast },
     });
 
-    await generateFavPages(favourites, doc, false, new AbortController().signal);
+    await generateFavPages(
+      favourites,
+      doc,
+      false,
+      new AbortController().signal,
+    );
 
     expect(doc.addPage).toHaveBeenCalledTimes(2);
     expect(doc.image).not.toHaveBeenCalled();
@@ -116,7 +121,7 @@ describe("generateFavPages", () => {
       [favourite(303)],
       doc,
       true,
-      new AbortController().signal
+      new AbortController().signal,
     );
 
     expect(doc.addPage).toHaveBeenCalledTimes(2);
@@ -146,7 +151,7 @@ describe("generateFavPages", () => {
       [favourite(404)],
       doc,
       true,
-      new AbortController().signal
+      new AbortController().signal,
     );
 
     expect(doc.addPage).toHaveBeenCalledTimes(2);
@@ -155,7 +160,7 @@ describe("generateFavPages", () => {
       "Text Only Performer as Text Only Character",
       50,
       150,
-      { align: "center" }
+      { align: "center" },
     );
     expect(details.isDone()).toBe(true);
   });
@@ -209,7 +214,7 @@ describe("generateFavPages", () => {
       "Second Performer as Second Character",
       expect.anything(),
       expect.anything(),
-      expect.anything()
+      expect.anything(),
     );
     expect(details.isDone()).toBe(true);
     expect(firstProfile.isDone()).toBe(true);
@@ -232,8 +237,8 @@ describe("generateFavPages", () => {
         [first, later],
         doc,
         false,
-        new AbortController().signal
-      )
+        new AbortController().signal,
+      ),
     ).rejects.toMatchObject({ response: { status: 500 } });
 
     expect(first.toJSON).toHaveBeenCalledTimes(1);

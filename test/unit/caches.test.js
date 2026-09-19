@@ -67,7 +67,7 @@ describe("router Map caches", () => {
         tmdbGet(
           "/3/movie/5",
           { api_key: API_KEY, append_to_response: "credits,videos" },
-          body
+          body,
         ),
     });
   });
@@ -78,7 +78,7 @@ describe("router Map caches", () => {
     const firstInterceptor = tmdbGet(
       "/3/movie/005",
       { api_key: API_KEY, append_to_response: "credits,videos" },
-      responseBody
+      responseBody,
     );
 
     const firstResponse = await request(app).get("/005/include-all");
@@ -90,7 +90,7 @@ describe("router Map caches", () => {
     const secondInterceptor = tmdbGet(
       "/3/movie/005",
       { api_key: API_KEY, append_to_response: "credits,videos" },
-      responseBody
+      responseBody,
     );
     const secondResponse = await request(app).get("/005/include-all");
 
@@ -100,7 +100,10 @@ describe("router Map caches", () => {
   });
 
   test("movie credits cache misses once, hits, and is module-isolated", async () => {
-    const responseBody = { id: 11, cast: [{ id: 101, name: "Synthetic actor" }] };
+    const responseBody = {
+      id: 11,
+      cast: [{ id: 101, name: "Synthetic actor" }],
+    };
 
     await expectCacheMissHitAndModuleIsolation({
       modulePath: "../../src/routes/movieCredits",
@@ -129,7 +132,11 @@ describe("router Map caches", () => {
   });
 
   test("actor info cache misses once, hits, and is module-isolated", async () => {
-    const responseBody = { id: 21, name: "Synthetic actor", images: { profiles: [] } };
+    const responseBody = {
+      id: 21,
+      name: "Synthetic actor",
+      images: { profiles: [] },
+    };
 
     await expectCacheMissHitAndModuleIsolation({
       modulePath: "../../src/routes/actorInfo",
@@ -144,7 +151,7 @@ describe("router Map caches", () => {
             language: "en-US",
             append_to_response: "images",
           },
-          body
+          body,
         ),
     });
   });
@@ -176,7 +183,7 @@ describe("router Map caches", () => {
             page: "1",
             with_cast: "22",
           },
-          upstreamBody
+          upstreamBody,
         ),
     });
   });
@@ -190,7 +197,8 @@ describe("router Map caches", () => {
     await expectCacheMissHitAndModuleIsolation({
       modulePath: "../../src/routes/search",
       exportName: "searchRouter",
-      requestPath: "/movie?searchTerm=synthetic%20query&pageNum=2&includeAdult=true",
+      requestPath:
+        "/movie?searchTerm=synthetic%20query&pageNum=2&includeAdult=true",
       responseBody,
       intercept: (body) =>
         tmdbGet(
@@ -201,7 +209,7 @@ describe("router Map caches", () => {
             page: "2",
             include_adult: "true",
           },
-          body
+          body,
         ),
     });
   });
@@ -217,11 +225,7 @@ describe("router Map caches", () => {
       requestPath: "/",
       responseBody,
       intercept: (body) =>
-        tmdbGet(
-          "/3/certification/movie/list",
-          { api_key: API_KEY },
-          body
-        ),
+        tmdbGet("/3/certification/movie/list", { api_key: API_KEY }, body),
     });
   });
 });

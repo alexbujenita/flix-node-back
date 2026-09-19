@@ -48,33 +48,40 @@ describe("tmdb-passthrough search", () => {
   });
 
   // B3: omitting searchTerm should produce a controlled JSON client/upstream error.
-  test.failing("B3 returns a 4xx/501 JSON response when searchTerm is omitted", async () => {
-    const response = await request(app).get("/api/search/movie");
+  test.failing(
+    "B3 returns a 4xx/501 JSON response when searchTerm is omitted",
+    async () => {
+      const response = await request(app).get("/api/search/movie");
 
-    expect(
-      (response.status >= 400 && response.status < 500) || response.status === 501
-    ).toBe(true);
-    expect(response.type).toBe("application/json");
-  });
+      expect(
+        (response.status >= 400 && response.status < 500) ||
+          response.status === 501,
+      ).toBe(true);
+      expect(response.type).toBe("application/json");
+    },
+  );
 
   // B9: reserved query characters must remain part of searchTerm, not become parameters.
-  test.failing("B9 percent-encodes reserved characters in the outgoing search URL", async () => {
-    let outgoingPath;
-    nock(tmdb)
-      .get("/3/search/movie")
-      .query(true)
-      .reply(function reply(uri) {
-        outgoingPath = uri;
-        return [200, { page: 1, results: [] }];
-      });
+  test.failing(
+    "B9 percent-encodes reserved characters in the outgoing search URL",
+    async () => {
+      let outgoingPath;
+      nock(tmdb)
+        .get("/3/search/movie")
+        .query(true)
+        .reply(function reply(uri) {
+          outgoingPath = uri;
+          return [200, { page: 1, results: [] }];
+        });
 
-    const response = await request(app)
-      .get("/api/search/movie")
-      .query({ searchTerm: "a&b=c" });
+      const response = await request(app)
+        .get("/api/search/movie")
+        .query({ searchTerm: "a&b=c" });
 
-    expect(response.status).toBe(200);
-    expect(outgoingPath).toContain("query=a%26b%3Dc");
-  });
+      expect(response.status).toBe(200);
+      expect(outgoingPath).toContain("query=a%26b%3Dc");
+    },
+  );
 });
 
 describe("tmdb-passthrough random movies", () => {
@@ -103,30 +110,26 @@ describe("tmdb-passthrough random movies", () => {
     expect(response.body.slice(0, 2)).toEqual(movies.slice(0, 2));
   });
 
-  test(
-    "GET /api/random stops after ten empty pages and returns a partial list",
-    async () => {
-      jest.spyOn(Math, "random").mockReturnValue(0);
-      const upstream = nock(tmdb)
-        .get("/3/discover/movie")
-        .query({
-          api_key: apiKey,
-          language: "en-US",
-          include_adult: "true",
-          include_video: "false",
-          page: "1",
-        })
-        .times(10)
-        .reply(200, { results: [] });
+  test("GET /api/random stops after ten empty pages and returns a partial list", async () => {
+    jest.spyOn(Math, "random").mockReturnValue(0);
+    const upstream = nock(tmdb)
+      .get("/3/discover/movie")
+      .query({
+        api_key: apiKey,
+        language: "en-US",
+        include_adult: "true",
+        include_video: "false",
+        page: "1",
+      })
+      .times(10)
+      .reply(200, { results: [] });
 
-      const response = await request(app).get("/api/random");
+    const response = await request(app).get("/api/random");
 
-      expect(response.status).toBe(200);
-      expect(response.body.length).toBeLessThan(27);
-      expect(upstream.isDone()).toBe(true);
-    },
-    3000
-  );
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBeLessThan(27);
+    expect(upstream.isDone()).toBe(true);
+  }, 3000);
 
   test("GET /api/random returns 501 when TMDB fails", async () => {
     jest.spyOn(Math, "random").mockReturnValue(0);
@@ -189,7 +192,11 @@ describe("tmdb-passthrough actor info", () => {
     const payload = { id: 3201, name: "Synthetic Actor", images: {} };
     nock(tmdb)
       .get("/3/person/3201")
-      .query({ api_key: apiKey, language: "en-US", append_to_response: "images" })
+      .query({
+        api_key: apiKey,
+        language: "en-US",
+        append_to_response: "images",
+      })
       .reply(200, payload);
 
     const response = await request(app).get("/api/actor-info/3201");

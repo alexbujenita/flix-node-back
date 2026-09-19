@@ -16,7 +16,7 @@ movieTrailerRouter.get("/:movieId", async (req, res) => {
   } else {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}`,
       );
 
       trailersCache.set(data.id, data);
