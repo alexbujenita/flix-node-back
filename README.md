@@ -86,6 +86,29 @@ Tests don't need a `secrets.js` file. The test setup injects `API_KEY` and
 `PRIVATE_KEY` as environment variables, so you can clone and run the suite
 without any local secrets.
 
+### Coverage
+
+```bash
+$ npm run test:coverage
+```
+
+This prints a per-file table in the terminal with statement, branch, function
+and line percentages, plus the exact uncovered line numbers for each file. It
+also writes a browsable HTML report to `coverage/lcov-report/index.html`, where
+you can click into a file and see the uncovered lines highlighted, and an
+`coverage/lcov.info` for CI tools. The `coverage` directory is gitignored.
+
+Coverage is measured over `src/**/*.js` only. You can scope a run to one
+project:
+
+```bash
+$ npm run test:coverage:unit
+$ npm run test:coverage:integration
+```
+
+Note that a single-project run reports low coverage for code the other project
+exercises, so use `npm run test:coverage` for the real picture.
+
 ### Recording fixtures
 
 ```bash

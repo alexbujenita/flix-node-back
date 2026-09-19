@@ -12,6 +12,9 @@
     "test:unit": "jest --selectProjects unit",
     "test:integration": "jest --selectProjects integration",
     "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:coverage:unit": "jest --selectProjects unit --coverage",
+    "test:coverage:integration": "jest --selectProjects integration --coverage",
     "fixtures:record": "node test/fixtures/record.js"
   },
   "repository": {

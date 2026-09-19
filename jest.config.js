@@ -4,6 +4,7 @@ module.exports = {
   restoreMocks: true,
   testPathIgnorePatterns: ["/node_modules/", "/test/fixtures/"],
   collectCoverageFrom: ["src/**/*.js"],
+  coverageReporters: ["text", "lcov"],
   projects: [
     {
       displayName: "unit",
