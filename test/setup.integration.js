@@ -1,4 +1,4 @@
-const nock = require("nock");
+const nock = require("nock").default;
 const { afterAll, afterEach, beforeAll } = require("@jest/globals");
 const db = require("../models");
 const { migrate, truncateAll } = require("./helpers/db");
@@ -26,5 +26,6 @@ afterEach(async () => {
 
 afterAll(async () => {
   nock.enableNetConnect();
+  nock.restore();
   await db.sequelize.close();
 });

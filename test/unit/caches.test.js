@@ -1,5 +1,5 @@
 const express = require("express");
-const nock = require("nock");
+const nock = require("nock").default;
 const request = require("supertest");
 
 const TMDB_ORIGIN = "https://api.themoviedb.org";

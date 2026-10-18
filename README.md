@@ -4,6 +4,9 @@ A backend for retrieving films, saving them with personal content and with the p
 
 ## Installation
 
+Use Node.js 24.9.0 or newer. Jest needs this version's synchronous VM-module
+support to load Nock 15 from the CommonJS test suite.
+
 Clone the repo and:
 
 ```bash
@@ -81,6 +84,13 @@ Or one project at a time:
 $ npm run test:unit
 $ npm run test:integration
 ```
+
+The test scripts enable Node's `--experimental-vm-modules` flag for Nock 15's
+ESM entry point. CommonJS consumers use `require("nock").default`. Both project
+setups restore Nock's HTTP interception after each suite to avoid leaking it
+into the next Jest environment.
+PDF client-abort checks wait for server-side document destruction rather than
+Supertest's end callback, which may not run after an abort.
 
 Tests don't need a `secrets.js` file. The test setup injects `API_KEY` and
 `PRIVATE_KEY` as environment variables, so you can clone and run the suite

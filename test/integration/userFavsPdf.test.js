@@ -1,5 +1,5 @@
 const express = require("express");
-const nock = require("nock");
+const nock = require("nock").default;
 const request = require("supertest");
 const PDFDocument = require("pdfkit");
 const db = require("../../models");
@@ -207,14 +207,12 @@ describe("GET /api/favs/pdf", () => {
       const posterRequestStarted = new Promise((resolve) =>
         posterRequest.once("request", resolve),
       );
-      const requestResult = new Promise((resolve) =>
-        pdfRequest.end((error, response) => resolve(error ?? response)),
-      );
+      sendAndIgnoreTransportErrors(pdfRequest);
 
       await posterRequestStarted;
       pdfRequest.abort();
-      await requestResult;
-      await new Promise((resolve) => setTimeout(resolve, 25));
+      await waitFor(() => destroyDocument.mock.calls.length > 0);
+      await settle();
 
       expect(destroyDocument).toHaveBeenCalled();
       expect(unhandledRejections).toEqual([]);

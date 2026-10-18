@@ -1,4 +1,4 @@
-const nock = require("nock");
+const nock = require("nock").default;
 const generateFavPages = require("../../src/utils/generateFavPages");
 
 const API_ORIGIN = "https://api.themoviedb.org";

@@ -1,4 +1,4 @@
-const nock = require("nock");
+const nock = require("nock").default;
 const request = require("supertest");
 const { createApp } = require("../../src/app");
 

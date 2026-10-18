@@ -1,4 +1,4 @@
-const nock = require("nock");
+const nock = require("nock").default;
 const { afterAll, afterEach, beforeAll } = require("@jest/globals");
 
 beforeAll(() => {
@@ -22,4 +22,5 @@ afterEach(() => {
 
 afterAll(() => {
   nock.enableNetConnect();
+  nock.restore();
 });
